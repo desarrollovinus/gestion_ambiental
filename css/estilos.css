@@ -1,0 +1,70 @@
+body{background-color:#a0d790}
+#btn-guardar{display:inline}
+#contenido{background-color:#fff;border-radius:3px 3px 3px 3px;box-shadow:0 6px 12px rgba(0,0,0,0.25);-webkit-box-shadow:0 6px 12px rgba(0,0,0,0.25);-moz-box-shadow:0 6px 12px rgba(0,0,0,0.25);margin:5px;padding:10px;position:relative}
+#info_menu{padding:1em;margin:0;}
+#info_menu #cont{height:20px;vertical-align:middle;min-width:30px;text-align:right}
+#info_menu h4{text-align:center;position:left}
+#info_menu a,#info_menu li{font-size:.7em;line-height:1.5em;text-align:left;text-decoration:none;vertical-align:middle}
+#info_menu p{text-align:center}
+#info_menu ul{margin-top:1em}
+#menu_auditoria .accordion-body{text-align:right;}
+#menu_auditoria .accordion-body a{color:#000;text-decoration:none}
+#menu_auditoria .accordion-body .accordion-inner .usuario{font-size:.9em;text-align:left}
+#logo{margin:0;padding:0;width:65px}
+#registro legend{font-size:1.5em;line-height:25px}
+#sombras{box-shadow:0 6px 12px rgba(0,0,0,0.25);-webkit-box-shadow:0 6px 12px rgba(0,0,0,0.25);-moz-box-shadow:0 6px 12px rgba(0,0,0,0.25)}
+#vista,.menu_lateral{min-height:250px}
+.administracion{font-size:.9em;}
+.administracion .cabecera,.administracion .cuerpo{padding:.2em}
+.administracion .cabecera{height:auto;}
+.administracion .cabecera .fecha{display:inline;float:right;padding-right:.2em;}
+.administracion .cabecera .fecha a{text-decoration:none}
+.administracion .cabecera .numero{border-right:1px solid #ddd;display:inline-block;padding-right:.3em}
+.administracion .cabecera .usuario{display:inline}
+.anexos{width:100%}
+.box-content{background:#fcfcfc;border:1px solid #ddd;margin-bottom:10px;margin-top:-1px;padding:10px}
+.box-content border-radius: 0px0px2px2px{-webkit-border-radius:0 0 2px 2px;-moz-border-radius:0 0 2px 2px}
+.box-header{background-color:#fafafa;background-image:linear-gradient(to bottom,#fafafa,#efefef);border:1px solid #ddd;box-shadow:none;height:20px;margin-bottom:-1px;padding:10px;}
+.box-header filter: progid:dximagetransform.microsoft.gradient(startColorstr='#fafafa',.box-header endColorstr='#efefef',.box-header GradientType=0){-webkit-box-shadow:none;-moz-box-shadow:none}
+.box-header border-radius: 2px2px0px0px{-webkit-border-radius:2px 2px 0 0;-moz-border-radius:2px 2px 0 0}
+.box-header h2{color:#646464;float:left;font-size:16px;font-weight:normal;line-height:16px;margin-top:2px;text-shadow:0 1px 0 #fff}
+.box-small{display:block;margin:20px;text-align:center;position:relative;min-width:40%}
+.box-small-link{background-color:#fafafa;background-image:linear-gradient(to bottom,#fafafa,#efefef);border:1px solid #ddd;border-radius:2px;color:#646464;display:block;font-size:26px;margin-bottom:-1px;padding:30px 0;text-shadow:0 1px 1px #fff}
+.box-small-link filter: progid:dximagetransform.microsoft.gradient(startColorstr='#fafafa',.box-small-link endColorstr='#efefef',.box-small-link GradientType=0){-webkit-box-shadow:none;-moz-box-shadow:none}
+.box-small-link box-shadow: none{-webkit-border-radius:2px;-moz-border-radius:2px}
+.box-small-link:hover{background-color:#4e525d;background-image:linear-gradient(to bottom,#4e525d,#3c4049);border:1px solid #3c4049;color:#fff;margin-bottom:-1px;padding:30px 0;text-decoration:none;text-shadow:0 1px 1px #000}
+.box-small-link:hover filter: progid:dximagetransform.microsoft.gradient(startColorstr='#4e525d',.box-small-link:hover endColorstr='#3c4049',.box-small-link:hover GradientType=0){-webkit-box-shadow:none;-moz-box-shadow:none}
+.box-small-title{color:#aaa;font-size:16px;margin:10px auto;text-align:center;text-shadow:0 1px 1px #fff}
+.clear{clear:both}
+.enlace_fotos{color:#000;text-decoration:none}
+.error{color:#f00}
+.exito{color:#008000}
+.anexo_foto,.anexo_pdf{display:inline-block;font-size:.9em;margin:10px;padding:0 0 15px 0;width:205px}
+.anexo_pdf img{height:160px;text-align:center;margin:0 auto}
+.anexo_foto img{height:160px;width:240px;min-height:120px;min-width:160px}
+.graficos{min-width:400px;height:400px;margin:0 auto}
+.derecha{text-align:right}
+.notification{border-radius:50em;-webkit-border-radius:50em;-moz-border-radius:50em;border-style:solid;border-width:1px;box-shadow:0 1px 1px rgba(0,0,0,0.08),inset 0 1px rgba(255,255,255,0.3);-webkit-box-shadow:0 1px 1px rgba(0,0,0,0.08),inset 0 1px rgba(255,255,255,0.3);-moz-box-shadow:0 1px 1px rgba(0,0,0,0.08),inset 0 1px rgba(255,255,255,0.3);color:#fff !important;height:16px;line-height:16px;padding:6px 10px;position:absolute;right:-16px;top:-16px;text-shadow:0 1px rgba(0,0,0,0.25)}
+.notification-small{border-radius:50em;-webkit-border-radius:50em;-moz-border-radius:50em;border-style:solid;border-width:1px;-webkit-box-shadow:0 1px 1px rgba(0,0,0,0.08),inset 0 1px rgba(255,255,255,0.3);-moz-box-shadow:0 1px 1px rgba(0,0,0,0.08),inset 0 1px rgba(255,255,255,0.3);box-shadow:0 1px 1px rgba(0,0,0,0.08),inset 0 1px rgba(255,255,255,0.3);color:#fff !important;padding:2px 7px;text-shadow:0 1px rgba(0,0,0,0.25)}
+.notification-small,.notification{background-color:#67c2ef;background-image:linear-gradient(top,#acddf6,#67c2ef);border-color:#2fabe9}
+.notification-small.green,.notification.green{background-color:#78cd51;background-image:linear-gradient(top,#a6dd8d,#78cd51);border-color:#5aad34}
+.notification-small.yellow,.notification.yellow{background-color:#fabb3d;background-image:linear-gradient(top,#fcd588,#fabb3d);border-color:#f4a506}
+.notification-small.red,.notification.red{background-color:#fa603d;background-image:linear-gradient(top,#fc9d88,#fa603d);border-color:#fa5833}
+.ocultar{display:none}
+.select_lateral{width:100%;max-width:250px}
+.solicitud{border-radius:.3em;padding:.2em;text-align:justify;}
+.solicitud .cabecera{padding:.4em;}
+.solicitud .cabecera .fecha_solicitud{float:left}
+.solicitud .cabecera .iconos{display:inline}
+.solicitud .cabecera .numero,.solicitud .cabecera .solicitante{border-radius:.3em .3em 0 0;display:inline;padding:.2em}
+.solicitud .cabecera .numero{float:right;padding:0}
+.solicitud .cabecera .solicitud{float:left}
+.solicitud .cuerpo{cursor:pointer;padding:.3em;}
+.solicitud .cuerpo p{display:inline}
+.solicitud .cuerpo .descripcion{color:#000;display:inline-block;height:3em;overflow:hidden;text-decoration:none}
+.solicitud .cuerpo .descripcion:hover{height:5em;text-decoration:none;transition:all .5s ease}
+.solicitud .cuerpo .fecha_solicitud{border:1px solid #000;display:inline-block;float:right}
+.solicitud .solucionado{background:#6de18a;border:1px solid #008000}
+.tabla_graficos th{text-align:left}
+.tramitando{background:#f4d67c;border:1px #ffa500}
+.vacio{color:#0c35c7}
