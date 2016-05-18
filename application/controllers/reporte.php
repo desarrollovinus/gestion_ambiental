@@ -29,15 +29,15 @@ Class Reporte extends CI_Controller{
 	/**
     * Funci&oacute;n constructora de la clase. Esta funci&oacute;n se encarga de verificar que se haya
     * iniciado sesi&oacute;n, si no se ha iniciado sesi&oacute;n inmediatamente redirecciona
-    * 
-    * Se hereda el mismo constructor de la clase para evitar sobreescribirlo y de esa manera 
+    *
+    * Se hereda el mismo constructor de la clase para evitar sobreescribirlo y de esa manera
     * conservar el funcionamiento de controlador.
-    * 
+    *
     * @access	public
     */
     function __construct(){
     	parent::__construct();
-        
+
         //se cargan los permisos
         $this->data['acceso'] = $this->session->userdata('Acceso');
 
@@ -53,14 +53,14 @@ Class Reporte extends CI_Controller{
     }//Fin construct
 
     /**
-     * 
+     *
      * Pantalla de inicio del modulo
      *
      * Modulo que realiza todas las operaciones relacionadas con las solicitudes
      *
-     * @param 
-     * @return 
-     * @throws 
+     * @param
+     * @return
+     * @throws
      */
     function index(){
         //se establece el titulo de la pagina
@@ -83,7 +83,7 @@ Class Reporte extends CI_Controller{
         //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
         // $this->auditoria_model->insertar(1, 12, null);
     } // acta_inicio
-    
+
     /**
      * Funcion que genera el reporte de solicitudes consolidado
      * por areas encargadas
@@ -141,7 +141,7 @@ Class Reporte extends CI_Controller{
     function consolidado_solicitudes_mensual(){
         //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
         // $this->auditoria_model->insertar(1, 12, null);
-        
+
         // Recolección de datos
         $this->data['anio'] = $this->uri->segment(3);
         $this->data['mes'] = $this->uri->segment(4);
@@ -151,12 +151,12 @@ Class Reporte extends CI_Controller{
     }//Fin consolidado_solicitudes_mensual
 
     /**
-     * 
+     *
      */
     function hojas_vida(){
         //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
         $this->auditoria_model->insertar(1, 24, null);
-        
+
         //Se carga la vista que contiene el reporte
         $this->load->view('reportes/excel/hojas_vida');
     } // hojas_vida
@@ -192,7 +192,7 @@ Class Reporte extends CI_Controller{
     function ica_2a(){
         //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
         $this->auditoria_model->insertar(1, 26, null);
-        
+
         //Se carga la vista que contiene el reporte
         $this->load->view('reportes/excel/ICA_2a');
     } // Ica 2a
@@ -203,7 +203,7 @@ Class Reporte extends CI_Controller{
     function ica_2b(){
         //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
         $this->auditoria_model->insertar(1, 27, null);
-        
+
         //Se carga la vista que contiene el reporte
         $this->load->view('reportes/excel/ICA_2b');
     } // Ica 2b
@@ -214,7 +214,7 @@ Class Reporte extends CI_Controller{
     function ica_2c(){
         //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
         $this->auditoria_model->insertar(1, 28, null);
-        
+
         //Se carga la vista que contiene el reporte
         $this->load->view('reportes/excel/ICA_2c');
     } // Ica 2c
@@ -225,7 +225,7 @@ Class Reporte extends CI_Controller{
     function ica_2d(){
         //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
         $this->auditoria_model->insertar(1, 29, null);
-        
+
         //Se carga la vista que contiene el reporte
         $this->load->view('reportes/excel/ICA_2d');
     } // Ica 2d
@@ -236,7 +236,7 @@ Class Reporte extends CI_Controller{
     function ica_2e(){
         //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
         $this->auditoria_model->insertar(1, 36, null);
-        
+
         //Se carga la vista que contiene el reporte
         $this->load->view('reportes/excel/ICA_2e');
     } // Ica 2e
@@ -247,7 +247,7 @@ Class Reporte extends CI_Controller{
     function ica_2f(){
         //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
         $this->auditoria_model->insertar(1, 38, null);
-        
+
         //Se carga la vista que contiene el reporte
         $this->load->view('reportes/excel/ICA_2f');
     } // ica 2f
@@ -258,7 +258,7 @@ Class Reporte extends CI_Controller{
     function ica_2g(){
         //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
         $this->auditoria_model->insertar(1, 40, null);
-        
+
         //Se carga la vista que contiene el reporte
         $this->load->view('reportes/excel/ICA_2g');
     } // Ica 2g
@@ -269,7 +269,7 @@ Class Reporte extends CI_Controller{
     function ica_2h(){
         //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
         $this->auditoria_model->insertar(1, 42, null);
-        
+
         //Se carga la vista que contiene el reporte
         $this->load->view('reportes/excel/ICA_2h');
     } // Ica 2h
@@ -280,29 +280,29 @@ Class Reporte extends CI_Controller{
     function ica_3a(){
         //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
         $this->auditoria_model->insertar(1, 44, null);
-        
+
         //Se carga la vista que contiene el reporte
         $this->load->view('reportes/excel/ICA_3a');
     } // Ica 3a
 
     /**
-     * 
+     *
      */
     function inspeccion_maquinaria(){
         //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
         $this->auditoria_model->insertar(1, 51, $this->uri->segment(3));
-        
+
         //Se carga la vista que contiene el reporte
         $this->load->view('reportes/excel/inspeccion_maquinaria');
     } // inspeccion_maquinaria
 
     /**
-     * 
+     *
      */
     function inspeccion_maquinaria_hallazgos(){
         //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
         // $this->auditoria_model->insertar(1, 51, $this->uri->segment(3));
-        
+
         //Se carga la vista que contiene el reporte
         $this->load->view('reportes/excel/inspeccion_maquinaria_hallazgos');
     } // inspeccion_maquinaria_hallazgos
@@ -354,7 +354,7 @@ Class Reporte extends CI_Controller{
     function registro_fotografico_1a(){
         //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
         //$this->auditoria_model->insertar(2, 20, null);
-        
+
         //Se carga la vista que contiene el reporte
         $this->load->view('reportes/pdf/1a_registro_fotografico');
     } // registro_fotografico_1a
@@ -372,6 +372,14 @@ Class Reporte extends CI_Controller{
         //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
         $this->auditoria_model->insertar(1, 5, $id_solicitud);
     }//Fin solicitud
+
+		/**
+     * Funcion que genera la recepcion de solicitudes
+     */
+    function recepcion_solicitudes(){
+        //Se carga la vista que contiene el reporte
+        $this->load->view('reportes/excel/recepcion_solicitudes');
+    }//Fin recepcion_solicitudes
 }
 /* End of file reporte.php */
 /* Location: ./gestion_ambiental/application/controllers/reporte.php */

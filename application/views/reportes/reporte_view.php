@@ -8,7 +8,7 @@
 		    </div>
 		</div>
 	<?php } ?>
-	
+
 	<!--Validar permiso-->
 	<?php if (isset($acceso[29])) { ?>
 		<div class="span6">
@@ -62,7 +62,7 @@
 							<option value="<?php echo $mes['Numero']; ?>"><?php echo $mes['Nombre']; ?></option>
 						<?php } ?>
 	    			</select>
-					
+
 					<!-- Clic -->
 		    		<button class="btn btn-large btn-block btn-danger btn-primary" id="btn_registro_fotografico" type="button">Generar PDF</button>
 	    		</div>
@@ -94,7 +94,7 @@
 							<option value="<?php echo $mes['Numero']; ?>"><?php echo $mes['Nombre']; ?></option>
 						<?php } ?>
 	    			</select>
-					
+
 					<!-- Clic -->
 		    		<button class="btn btn-large btn-block btn-success btn-primary" id="btn_consolidado_solicitudes" type="button">Generar Excel</button>
 	    		</div>
@@ -116,6 +116,20 @@
     		<?php } ?>
 	    </div>
 	</div>
+</div>
+
+<div class="row-fluid">
+	<!--Validar permiso-->
+	<?php if (isset($acceso[29])) { ?>
+		<div class="span6">
+			<div class="row-fluid">
+				<div class="box-header"><h2>Recepcion de solicitudes</h2></div>
+					<div class="box-content">
+					<button class="btn btn-large btn-block btn-success btn-primary" type="button" onClick="window.location = 'reporte/recepcion_solicitudes'">Generar Excel</button>
+					</div>
+			</div>
+		</div>
+	<?php } ?>
 </div>
 
 <script type="text/javascript">
@@ -154,7 +168,7 @@
 				$(".mensaje").html('<div class="alert"><button class="close" data-dismiss="alert">&times;</button>Aun no se puede generar el reporte.\n\
                 Seleccione área, año y mes.</div>');
 			} else {
-				window.location = "reporte/registro_fotografico/" + $("#area").val() + "/" + $("#anio").val() + "/" + $("#mes").val(); 
+				window.location = "reporte/registro_fotografico/" + $("#area").val() + "/" + $("#anio").val() + "/" + $("#mes").val();
 			}
 		});
 
@@ -165,7 +179,7 @@
 				$(".mensaje").html('<div class="alert"><button class="close" data-dismiss="alert">&times;</button>Aun no se puede generar el reporte.\n\
 				Seleccione año y mes.</div>');
 			} else {
-				window.location = "reporte/consolidado_solicitudes_mensual/" + $("#anio_consolidado").val() + "/" + $("#mes_consolidado").val(); 
+				window.location = "reporte/consolidado_solicitudes_mensual/" + $("#anio_consolidado").val() + "/" + $("#mes_consolidado").val();
 			}
 		});
 
