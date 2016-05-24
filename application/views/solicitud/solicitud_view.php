@@ -508,6 +508,7 @@ endforeach;
                     type: 'POST',
                     data: datos,
                     success: function(msg){
+                        console.log(msg)
                         //Si el mensaje es true
                         if(msg == 'true'){
                             //Se redirecciona al inicio

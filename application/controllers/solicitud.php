@@ -130,17 +130,19 @@ Class Solicitud extends CI_Controller{
             $documento = $this->input->post("numero_documento");
             $email = $this->input->post("email");
 
-            //Se pregunta por el estado de la solicitud
-            if($radicado_salida != ''){
-                $estado_solicitud = 2;
-            }else{
-                $estado_solicitud = 1;
-            }
+            
 
             //Formateo de las fechas
             if($fecha_cierre == '1969-12-31 19:00:00'){ $fecha_cierre = null; }
             if($fecha_remision == '1969-12-31 19:00:00'){ $fecha_remision = null; }
             if($fecha_cierre == '1969-12-31 19:00:00'){ $fecha_cierre = null; }
+			
+			// Si no riene fecha de cierre
+            if(!$fecha_cierre){
+                $estado_solicitud = 1;
+            }else{
+                $estado_solicitud = 2;
+            }
 
             //Si es una remision
             if($accion_emprendida == 3){
@@ -184,10 +186,15 @@ Class Solicitud extends CI_Controller{
                 'Fk_Id_Solicitud_Accion' => $accion_emprendida,
                 'Fk_Id_Solicitud_Estado' => $estado_solicitud,
                 'Fk_Id_Remision' => $id_remision,
-                'Fk_Id_Documento_Tipo' => $id_tipo_documento,
                 'Documento' => $documento,
                 'Email' => $email
             );
+			
+			// Si tiene tipo de documento
+			if($id_tipo_documento > 0){
+				// Se agrega el campo
+				$solicitud['Fk_Id_Documento_Tipo'] = $id_tipo_documento;
+			} // if			
 
             //Se inserta el registro en base de datos que guarda la solicitud
             $guardar_solicitud = $this->solicitud_model->guardar($solicitud);
