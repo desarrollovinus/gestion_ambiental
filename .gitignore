@@ -1,6 +1,9 @@
 # Archivos de configuracion
 application/config/database.php
 application/config/config.php
+# Archivos de mysql workbench
+*.mwb
+#----------------------------
 .DS_Store
 application/cache/*
 !application/cache/index.html
