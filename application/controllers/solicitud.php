@@ -2,7 +2,7 @@
 if ( ! defined('BASEPATH')) exit('Lo sentimos, usted no tiene acceso a esta ruta');
 
 //Eliminar errores
-error_reporting(0);
+// error_reporting(0);
 
 /**
  * Solicitud
