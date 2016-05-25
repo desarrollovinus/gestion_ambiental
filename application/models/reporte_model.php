@@ -399,6 +399,18 @@ Class Reporte_model extends CI_Model{
         return $this->db_ica->query($sql)->result();
     }
 
+    function listar_anios_reporte(){
+        $sql =
+        "SELECT
+            YEAR(s.Fecha_Creacion) Anio
+        FROM
+            solicitudes AS s
+        GROUP BY
+            Anio";
+        
+        return $this->db->query($sql)->result();
+    }
+
     function tramos_fotos($anio, $mes, $id_area){
         $sql =
         "SELECT
