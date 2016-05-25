@@ -532,23 +532,29 @@ Class Solicitud_model extends CI_Model{
             ae.Nombre AS Area_Encargada,
             te.Nombre AS Tema,
             t.Nombre AS Tramo,
-            s.Fk_Id_Lugar_Recepcion
+            s.Fk_Id_Lugar_Recepcion,
+            CONCAT(
+                us.Nombres,
+                ' ',
+                us.Apellidos
+            ) Receptor
         FROM
-            solicitudes AS s
-        LEFT JOIN tbl_tramos AS t ON s.Fk_Id_Tramo = t.Pk_Id_Tramo
-        LEFT JOIN tbl_sectores AS se ON s.Fk_Id_Sector = se.Pk_Id_Sector
-        LEFT JOIN tbl_municipios AS m ON m.Pk_Id_Municipio = se.Fk_Id_Municipio
-        LEFT JOIN tbl_recepcion_forma AS f ON f.Pk_Id_Recepcion_Forma = s.Fk_Id_Recepcion_Forma
-        LEFT JOIN tbl_solicitud_tipos AS ts ON s.Fk_Id_Solicitud_Tipo = ts.Pk_Id_Solicitud_Tipo
-        LEFT JOIN tbl_solicitud_accion AS a ON s.Fk_Id_Solicitud_Accion = a.Pk_Id_Solicitud_Accion
-        LEFT JOIN remisiones AS re ON re.Pk_Id_Remision = s.Fk_Id_Remision
-        LEFT JOIN funcionarios AS fu ON re.Fk_Id_Funcionario = fu.Pk_Id_Funcionario
-        LEFT JOIN tbl_area_encargada AS ae ON s.Fk_Id_Area_Encargada = ae.Pk_Id_Area_Encargada
-        LEFT JOIN tbl_temas AS te ON s.Fk_Id_Tema = te.Pk_Id_Tema
-        LEFT JOIN tbl_empresas AS em ON em.Pk_Id_Empresa = fu.Fk_Id_Empresa
-        LEFT JOIN tbl_cargos AS ca ON ca.Pk_Id_Cargo = fu.Fk_Id_Cargo
-        LEFT JOIN tbl_sectores_tipos AS st ON se.Fk_Id_Sector_Tipo = st.Pk_Id_Sector_Tipo
-        LEFT JOIN tbl_recepcion_lugares AS rl ON s.Fk_Id_Lugar_Recepcion = rl.Pk_Id_Recepcion_Lugar
+            solicitudes.solicitudes AS s
+        LEFT JOIN solicitudes.tbl_tramos AS t ON s.Fk_Id_Tramo = t.Pk_Id_Tramo
+        LEFT JOIN solicitudes.tbl_sectores AS se ON s.Fk_Id_Sector = se.Pk_Id_Sector
+        LEFT JOIN solicitudes.tbl_municipios AS m ON m.Pk_Id_Municipio = se.Fk_Id_Municipio
+        LEFT JOIN solicitudes.tbl_recepcion_forma AS f ON f.Pk_Id_Recepcion_Forma = s.Fk_Id_Recepcion_Forma
+        LEFT JOIN solicitudes.tbl_solicitud_tipos AS ts ON s.Fk_Id_Solicitud_Tipo = ts.Pk_Id_Solicitud_Tipo
+        LEFT JOIN solicitudes.tbl_solicitud_accion AS a ON s.Fk_Id_Solicitud_Accion = a.Pk_Id_Solicitud_Accion
+        LEFT JOIN solicitudes.remisiones AS re ON re.Pk_Id_Remision = s.Fk_Id_Remision
+        LEFT JOIN solicitudes.funcionarios AS fu ON re.Fk_Id_Funcionario = fu.Pk_Id_Funcionario
+        LEFT JOIN solicitudes.tbl_area_encargada AS ae ON s.Fk_Id_Area_Encargada = ae.Pk_Id_Area_Encargada
+        LEFT JOIN solicitudes.tbl_temas AS te ON s.Fk_Id_Tema = te.Pk_Id_Tema
+        LEFT JOIN solicitudes.tbl_empresas AS em ON em.Pk_Id_Empresa = fu.Fk_Id_Empresa
+        LEFT JOIN solicitudes.tbl_cargos AS ca ON ca.Pk_Id_Cargo = fu.Fk_Id_Cargo
+        LEFT JOIN solicitudes.tbl_sectores_tipos AS st ON se.Fk_Id_Sector_Tipo = st.Pk_Id_Sector_Tipo
+        LEFT JOIN solicitudes.tbl_recepcion_lugares AS rl ON s.Fk_Id_Lugar_Recepcion = rl.Pk_Id_Recepcion_Lugar
+        INNER JOIN apps.usuarios AS us ON s.Fk_Id_Usuario = us.Pk_Id_Usuario
         WHERE
             s.Pk_Id_Solicitud = {$id_solicitud}";
 

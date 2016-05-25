@@ -82,7 +82,7 @@
 	    			<!-- Año -->
 	    			<select id="anio_consolidado" class="span6">
 	    				<option value="0">Año</option>
-						<?php foreach ($this->reporte_model->listar_anios_ica() as $anio) { ?>
+						<?php foreach ($this->reporte_model->listar_anios_reporte() as $anio) { ?>
 							<option value="<?php echo $anio->Anio; ?>"><?php echo $anio->Anio; ?></option>
 						<?php } ?>
 	    			</select>

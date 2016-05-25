@@ -69,22 +69,22 @@
                     Copacabana, Antioquia<br/>
 
                     <!-- Sitio web -->
-                    <a href="http://www.hatovial.com/" target="_blank">
+                    <a href="http://www.vinus.com.co/" target="_blank">
                         <img width="20" src="<?php echo base_url(); ?>img/iconos/internet.png" />
                     </a>
 
                     <!-- Email -->
-                    <a href="mailto:info@hatovial.com">
+                    <a href="mailto:info@vinus.com.co">
                         <img width="24" src="<?php echo base_url(); ?>img/iconos/mail.png" />
                     </a>
                     
                     <!-- Facebook -->
-                    <a href="http://www.facebook.com/hatovial" target="_blank" >
+                    <a href="https://www.facebook.com/ViasDelNus/" target="_blank" >
                         <img width="20" src="<?php echo base_url(); ?>img/iconos/facebook.png" />
                     </a>
 
                     <!-- Twitter -->
-                    <a href="http://www.twitter.com/hatovial" target="_blank">
+                    <a href="https://twitter.com/ViasDelNUS" target="_blank">
                         <img width="25" src="<?php echo base_url(); ?>img/iconos/twitter.png" />
                     </a>
 
