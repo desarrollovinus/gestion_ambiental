@@ -378,7 +378,9 @@ Class Reporte extends CI_Controller{
      */
     function recepcion_solicitudes(){
         //Se carga la vista que contiene el reporte
-        $this->load->view('reportes/excel/recepcion_solicitudes');
+				$this->data['mes'] = $this->uri->segment(4);
+				$this->data['anio'] = $this->uri->segment(3);
+        $this->load->view('reportes/excel/recepcion_solicitudes', $this->data);
     }//Fin recepcion_solicitudes
 }
 /* End of file reporte.php */

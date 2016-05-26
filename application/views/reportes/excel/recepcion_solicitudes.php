@@ -10,7 +10,7 @@ $hoja = $objPHPExcel->getActiveSheet()->setTitle('Hoja1');
 /*
  * modelos
  */
-$solicitudes = $this->solicitud_model->listar();
+$solicitudes = $this->solicitud_model->ver();
 
 //Se establece la configuracion general
 $objPHPExcel->getProperties()
@@ -23,15 +23,14 @@ $objPHPExcel->getProperties()
   ->setCategory("Reporte");
 
 //Fecha
-$objPHPExcel->getActiveSheet()->setCellValue('V3', 'Fecha: ' . date('d/m/Y'));
+$objPHPExcel->getActiveSheet()->setCellValue('W3',  'Fecha: ' . date('d/m/Y'));
+// $objPHPExcel->getActiveSheet()->setCellValue('W3', "Fecha: ".$this->data['mes']."/".$this->data['anio']);
 
 // rellenando informacion
 // primer fila de relleno
 $fila = 9;
 foreach ($solicitudes as $solicitud)
 {
-	//carga subconsultas de una solicitud
-	$detalle = $this->solicitud_model->ver($solicitud->Pk_Id_Solicitud);
 	//configuracion de fecha
 	$fecha = strtotime($solicitud->Fecha_Creacion);
 	$dia = date('d', $fecha);
@@ -43,7 +42,7 @@ foreach ($solicitudes as $solicitud)
 	$objPHPExcel->getActiveSheet()->setCellValue("C{$fila}", $anio);
 	$objPHPExcel->getActiveSheet()->setCellValue("D{$fila}", $solicitud->Radicado_Entrada);
 
-	switch ($detalle->Tipo_Solicitud) {
+	switch ($solicitud->Tipo_Solicitud) {
 		case 'Petición':
 			$objPHPExcel->getActiveSheet()->setCellValue("E{$fila}", "X");
 			break;
@@ -67,10 +66,10 @@ foreach ($solicitudes as $solicitud)
 
 	$objPHPExcel->getActiveSheet()->setCellValue("J{$fila}", $solicitud->Nombres);
 	$objPHPExcel->getActiveSheet()->setCellValue("K{$fila}", $solicitud->Documento);
-	$objPHPExcel->getActiveSheet()->setCellValue("L{$fila}", $detalle->Municipio);
-	$objPHPExcel->getActiveSheet()->setCellValue("M{$fila}", $detalle->Descripcion_Solicitud);
+	$objPHPExcel->getActiveSheet()->setCellValue("L{$fila}", $solicitud->Municipio);
+	$objPHPExcel->getActiveSheet()->setCellValue("M{$fila}", $solicitud->Descripcion_Solicitud);
 
-	switch ($detalle->Forma_Recepcion)
+	switch ($solicitud->Forma_Recepcion)
 	{
 		case 'Personal':
 			$objPHPExcel->getActiveSheet()->setCellValue("N{$fila}", 'X');
@@ -93,7 +92,7 @@ foreach ($solicitudes as $solicitud)
 			break;
 	}
 
-	switch ($detalle->Lugar_Recepcion) {
+	switch ($solicitud->Lugar_Recepcion) {
 		case 'Oficina Fija 1':
 		case 'Oficina Fija 2':
 			$objPHPExcel->getActiveSheet()->setCellValue("S{$fila}", 'X');
@@ -104,6 +103,9 @@ foreach ($solicitudes as $solicitud)
 			break;
 	}
 
+	$objPHPExcel->getActiveSheet()->setCellValue("U{$fila}", $solicitud->Receptor);
+	$objPHPExcel->getActiveSheet()->setCellValue("V{$fila}", $solicitud->Funcionario);
+
 	// 1:Abierto='En trámite' <------->  2:Cerrado='Resueltas'
 	if ($solicitud->Fk_Id_Solicitud_Estado == 1)
 	{
@@ -111,7 +113,8 @@ foreach ($solicitudes as $solicitud)
 	} else if($solicitud->Fk_Id_Solicitud_Estado == 2) {
 		$objPHPExcel->getActiveSheet()->setCellValue("X{$fila}", 'X');
 	}
-	$objPHPExcel->getActiveSheet()->setCellValue("Y{$fila}", $solicitud->Radicado_Salida);
+	$objPHPExcel->getActiveSheet()->setCellValue("Y{$fila}", $solicitud->Radicado_Respuesta);
+	$objPHPExcel->getActiveSheet()->setCellValue("Z{$fila}", $solicitud->Descripcion_Respuesta);
 	$objPHPExcel->getActiveSheet()->insertNewRowBefore($fila + 1, 1);
 	$fila++;
 }
