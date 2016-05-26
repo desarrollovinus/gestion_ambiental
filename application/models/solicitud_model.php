@@ -276,16 +276,10 @@ Class Solicitud_model extends CI_Model{
      * @return array
      * @throws
      */
-    function cargar_tipos_solicitud($id=0){
+    function cargar_tipos_solicitud(){
         //Columnas a retornar
         $this->db->select('*');
         $this->db->order_by('Nombre');
-
-        if ($id)
-        {
-          $this->db->where('Pk_Id_Solicitud_Tipo', $id);
-          return $this->db->get('tbl_solicitud_tipos')->row();
-        }
 
         //Se ejecuta y retorna la consulta
         return $this->db->get('tbl_solicitud_tipos')->result();
@@ -340,23 +334,19 @@ Class Solicitud_model extends CI_Model{
      * @return array
      * @throws
      */
-    function listar($id_estado=null){
+    function listar($id_estado){
         //Columnas a retornar
         $this->db->select('Pk_Id_Solicitud');
         $this->db->select('Nombres');
         $this->db->select('Fecha_Creacion');
         $this->db->select('Solicitud_Descripcion');
-        $this->db->select('Radicado_Entrada');
-        $this->db->select('Fk_Id_Solicitud_Tipo');
-        $this->db->select('Documento');
-        $this->db->select('Fk_Id_Solicitud_Estado');
-        $this->db->select('Radicado_Salida');
         $this->db->order_by('Pk_Id_Solicitud', 'desc');
 
         //Si se ha seleccionado un estado
         if($id_estado){
             //Se indica la condicion con el estado
             $this->db->where('Fk_Id_Solicitud_Estado', $id_estado);
+            return $this->db->get('solicitudes')->row();
         }//Fin if
 
         //Se ejecuta y retorna la consulta
@@ -489,16 +479,16 @@ Class Solicitud_model extends CI_Model{
      * @return array
      * @throws
      */
-    function ver($id_solicitud){
+    function ver($id_solicitud=null){
         //Consulta
         $sql =
         "SELECT
             s.Pk_Id_Solicitud,
-            s.Radicado_Entrada,
-            s.Nombres,
-            s.Fecha_Creacion,
+            s.Radicado_Entrada AS Radicado_Entrada,
+            s.Nombres AS Nombres,
+            s.Fecha_Creacion AS Fecha_Creacion,
             s.Direccion,
-            s.Documento,
+            s.Documento AS Documento,
             s.Email,
             s.Fk_Id_Documento_Tipo,
             s.Telefono,
@@ -515,7 +505,7 @@ Class Solicitud_model extends CI_Model{
             a.Nombre AS Accion_Emprendida,
             s.Accion_Descripcion AS Descripcion_Accion,
             re.Pk_Id_Remision,
-            s.Fk_Id_Solicitud_Estado,
+            s.Fk_Id_Solicitud_Estado AS Fk_Id_Solicitud_Estado,
             fu.Pk_Id_Funcionario,
             CONCAT(
                 fu.Nombres,
@@ -554,16 +544,15 @@ Class Solicitud_model extends CI_Model{
         LEFT JOIN solicitudes.tbl_cargos AS ca ON ca.Pk_Id_Cargo = fu.Fk_Id_Cargo
         LEFT JOIN solicitudes.tbl_sectores_tipos AS st ON se.Fk_Id_Sector_Tipo = st.Pk_Id_Sector_Tipo
         LEFT JOIN solicitudes.tbl_recepcion_lugares AS rl ON s.Fk_Id_Lugar_Recepcion = rl.Pk_Id_Recepcion_Lugar
-        LEFT JOIN apps.usuarios AS us ON s.Fk_Id_Usuario = us.Pk_Id_Usuario
-        ";
+        LEFT JOIN apps.usuarios AS us ON s.Fk_Id_Usuario = us.Pk_Id_Usuario";
 
-            if ($id_solicitud) {
-                $this->db->where("s.Pk_Id_Solicitud", $id_solicitud);
-            return $this->db->query($sql)->row();
-            }
-            return $this->db->query($sql)->result();
+        if ($id_solicitud != null) {
+          $sql .= " WHERE s.Pk_Id_Solicitud = {$id_solicitud}";
+          //Se ejecuta y retorna la consulta
+          return $this->db->query($sql)->row();
+        }
 
-        //Se ejecuta y retorna la consulta
+        return $this->db->query($sql)->result();
     }//Fin ver()
 
     /**
