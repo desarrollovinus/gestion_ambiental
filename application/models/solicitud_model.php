@@ -479,7 +479,7 @@ Class Solicitud_model extends CI_Model{
      * @return array
      * @throws
      */
-    function ver($id_solicitud=null){
+    function ver($id_solicitud=null, $mes=null, $anio=null){
         //Consulta
         $sql =
         "SELECT
@@ -550,6 +550,11 @@ Class Solicitud_model extends CI_Model{
           $sql .= " WHERE s.Pk_Id_Solicitud = {$id_solicitud}";
           //Se ejecuta y retorna la consulta
           return $this->db->query($sql)->row();
+        }
+
+        if ($mes != null && $anio != null) {
+          $sql .= " WHERE
+	         MONTH(s.Fecha_Creacion) = {$mes} AND YEAR(s.Fecha_Creacion) = {$anio}";
         }
 
         return $this->db->query($sql)->result();
