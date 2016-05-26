@@ -10,7 +10,7 @@ $hoja = $objPHPExcel->getActiveSheet()->setTitle('Hoja1');
 /*
  * modelos
  */
-$solicitudes = $this->solicitud_model->ver();
+$solicitudes = $this->solicitud_model->ver(null, $this->data['mes'], $this->data['anio']);
 
 //Se establece la configuracion general
 $objPHPExcel->getProperties()
