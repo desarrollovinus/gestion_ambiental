@@ -10,7 +10,7 @@
     	// var subcategoria = $("#subcategoria");
 
     	// //Se carga la lista con archivos subidos
-    	// $("#archivos_subidos").load("<?php echo site_url('hoja_vida/listar_archivos') ?>", {'id_hoja_vida': "<?php echo $id_hoja_vida; ?>"})
+    	// $("#archivos_subidos").load("<?php // echo site_url('hoja_vida/listar_archivos') ?>", {'id_hoja_vida': "<?php // echo $id_hoja_vida; ?>"})
 
     	datos = {
 	    	id_hoja_vida: "<?php echo $id_hoja_vida; ?>"
