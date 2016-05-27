@@ -224,9 +224,6 @@ $profesiones = $this->hoja_vida_model->cargar_profesiones();
 			}
 		});//Fin documento change
 
-    	//Se toma las fechas
-		fecha_nacimiento = anio.val() + "-" + mes.val() + "-" + dia.val();
-
         /**
 		 * Cuando se seleccione un municipio
 		 */
@@ -254,60 +251,67 @@ $profesiones = $this->hoja_vida_model->cargar_profesiones();
 		$("form").on("submit", function(){
 			// Se quita cualquier mensaje de error
 			$(".div_mensaje").html("");
+
+			//Se toma las fechas
+			fecha_nacimiento = anio.val() + "-" + mes.val() + "-" + dia.val();
 			
 			// Si la cédula ya existe en base de datos
 			if(documento_existe){
 				//Se muestra el mensaje de error
                 $(".div_mensaje").html('<div class="alert"><button class="close" data-dismiss="alert">&times;</button>Este número de documento ya existe. Por favor envíenos un correo a info@vinus.com.co para actualizar su hoja de vida</div>');
-			} else {
-				//Se recogen los datos a validar
-				campos_obligatorios = new Array(
-					documento.val(),
-					nombres.val(),
-					telefono.val(),
-					fecha_nacimiento,
-					genero.val(),
-					sector.val(),
-					nivel_estudio.val(),
-					profesion.val(),
-					observaciones.val()
-				);
 
-				if(!validar_campos_vacios(campos_obligatorios)){
-					//Se muestra el mensaje de error
-	                $(".div_mensaje").html('<div class="alert"><button class="close" data-dismiss="alert">&times;</button>Aún no podemos guardar sus datos.\n\
-	                Verifique que los campos obligatorios (marcados con *) estén diligenciados.</div>');
+                return false;
+			}
 
-	                return false;
-				} // if
+			//Se recogen los datos a validar
+			campos_obligatorios = new Array(
+				documento.val(),
+				nombres.val(),
+				telefono.val(),
+				fecha_nacimiento,
+				genero.val(),
+				sector.val(),
+				nivel_estudio.val(),
+				profesion.val(),
+				observaciones.val()
+			);
 
-				//Se recogen los datos
-				datos = {
-					"Contratado": 0,
-					"Direccion": direccion.val().toUpperCase(),
-					"Documento": documento.val(),
-					"Fecha_Nacimiento": fecha_nacimiento,
-					"Fk_Id_Sector": sector.val(),
-					"Fk_Id_Valor_Nivel_Estudio": nivel_estudio.val(),
-					"Fk_Id_Valor_Profesion": profesion.val(),
-					"Id_Genero": genero.val(),
-					"Nombres": nombres.val().toUpperCase(),
-					"Observaciones": observaciones.val().toUpperCase(),
-					"Recibida": 0,
-					"Telefono": telefono.val(),
-					"Fk_Id_Usuario": 33,
-					"Fecha_Recepcion": "<?php echo date('Y-m-d', time()); ?>"
-				}//datos
+			if(!validar_campos_vacios(campos_obligatorios)){
+				//Se muestra el mensaje de error
+                $(".div_mensaje").html('<div class="alert"><button class="close" data-dismiss="alert">&times;</button>Aún no podemos guardar sus datos.\n\
+                Verifique que los campos obligatorios (marcados con *) estén diligenciados.</div>');
 
-				//Para guardar ejecutaremos una funcion JS que envía datos con ajax
-				id = enviar_ajax("<?php echo site_url('empleabilidad/guardar'); ?>", {'datos': datos});
+                return false;
+			} // if
 
-				// Si guardó correctamente
-				if (id) {
-					location.href = "empleabilidad/archivo" + "/" + id;
+			//Se recogen los datos
+			datos = {
+				"Contratado": 0,
+				"Direccion": direccion.val().toUpperCase(),
+				"Documento": documento.val(),
+				"Fecha_Nacimiento": fecha_nacimiento,
+				"Fk_Id_Sector": sector.val(),
+				"Fk_Id_Valor_Nivel_Estudio": nivel_estudio.val(),
+				"Fk_Id_Valor_Profesion": profesion.val(),
+				"Id_Genero": genero.val(),
+				"Nombres": nombres.val().toUpperCase(),
+				"Observaciones": observaciones.val().toUpperCase(),
+				"Recibida": 0,
+				"Telefono": telefono.val(),
+				"Fk_Id_Usuario": 33,
+				"Fecha_Recepcion": "<?php echo date('Y-m-d', time()); ?>"
+			}//datos
 
-					// Se envía el email informando de la subida de la hoja de vida
-				} // if
+			//Para guardar ejecutaremos una funcion JS que envía datos con ajax
+			id = enviar_ajax("<?php echo site_url('empleabilidad/guardar'); ?>", {'datos': datos});
+
+			// Si guardó correctamente
+			if (id) {
+				// Se envía el email informando de la subida de la hoja de vida
+				
+
+				// Se redirecciona a la subida del archivo
+				location.href = "empleabilidad/archivo" + "/" + id;
 			} // if
 
 			return false;

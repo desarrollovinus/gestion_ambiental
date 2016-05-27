@@ -15,8 +15,11 @@ Class Empleabilidad extends CI_Controller{
         parent::__construct();
 
         //Se cargan los modelos, librerias y helpers
-        $this->load->model(array('hoja_vida_model', 'solicitud_model', 'ica_model'));
+        $this->load->model(array('empleabilidad_model', 'solicitud_model', 'hoja_vida_model'));
     }//Fin construct()
+
+    //Se declara la variable que contiene la ruta predeterminada para la subida de las hojas de vida
+    var $ruta = './archivos/hojas_vida/';
 
     function index(){
         //se establece el titulo de la pagina
@@ -76,7 +79,7 @@ Class Empleabilidad extends CI_Controller{
         //Se valida que la peticion venga mediante ajax y no mediante el navegador
         if($this->input->is_ajax_request()){
             //Si se guarda
-            if ($this->hoja_vida_model->guardar($this->input->post('datos'))) {
+            if ($this->empleabilidad_model->guardar($this->input->post('datos'))) {
                 $id = mysql_insert_id();
 
                 //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
@@ -89,6 +92,60 @@ Class Empleabilidad extends CI_Controller{
         }else{
             //Si la peticion fue hecha mediante navegador, se redirecciona a la pagina de inicio
             redirect('');
+        }
+    }
+
+    function subir_archivo(){
+        //Almacenamos el id que usaremos
+        $id_archivo = $this->hoja_vida_model->obtener_id_archivo() + 1;
+
+        //Variable que marca el exito de la transferencia
+        $exito = null;
+
+        //Se almacena la fecha
+        $fecha = date("Ymd-His");
+
+        //Se asigna el nombre del archivo
+        $nombre = $fecha.'.'.$extension = end(explode(".", $_FILES['userfile']['name']));
+
+        //Sse establece el directorio
+        $directorio = $this->ruta.$id_archivo.'/';
+
+        //Valida que el directorio exista. Si no existe,lo crea con el id obtenido
+        if( ! is_dir($directorio)){
+            //Asigna los permisos correspondientes
+            @mkdir($directorio, 0777);
+        }//Fin if
+
+        //Almacenamos los datos a guardar en un arreglo
+        $datos = array(
+            'Pk_Id_Hoja_Vida_Archivo' => $id_archivo,
+            'Fk_Id_Hoja_Vida' => $this->input->post('id_hoja_vida'),
+            'Fk_Id_Hoja_Vida_Subcategoria' => $this->input->post('id_subcategoria'),
+            'Fk_Id_Usuario' => $this->session->userdata('Pk_Id_Usuario')
+        );
+
+
+        //Si se sube el archivo exitosamente
+        if (move_uploaded_file($_FILES['userfile']['tmp_name'], $directorio.$nombre)) {
+            //Se agrega a la base de datos
+            $this->hoja_vida_model->guardar_archivo($datos);
+
+            //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
+            $this->auditoria_model->insertar(2, 46, mysql_insert_id());
+
+            //La subida es ok
+            $exito = "true";
+        } else {
+            // $exito = "false";
+        print json_encode($datos);
+
+        }
+
+        //Si se subio correctamente
+        if($exito == "true") {
+            //Se reciben los datos por post
+            echo "true";
         }
     }
 }
