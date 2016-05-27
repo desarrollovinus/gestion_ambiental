@@ -28,7 +28,7 @@ $objPHPExcel->getActiveSheet()->setCellValue('W3',  'Fecha: ' . date('d/m/Y'));
 
 // rellenando informacion
 // primer fila de relleno
-$fila = 9;
+$fila = 7;
 foreach ($solicitudes as $solicitud)
 {
 	//configuracion de fecha
