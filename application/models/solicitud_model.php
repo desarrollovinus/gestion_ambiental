@@ -554,12 +554,16 @@ Class Solicitud_model extends CI_Model{
         LEFT JOIN solicitudes.tbl_cargos AS ca ON ca.Pk_Id_Cargo = fu.Fk_Id_Cargo
         LEFT JOIN solicitudes.tbl_sectores_tipos AS st ON se.Fk_Id_Sector_Tipo = st.Pk_Id_Sector_Tipo
         LEFT JOIN solicitudes.tbl_recepcion_lugares AS rl ON s.Fk_Id_Lugar_Recepcion = rl.Pk_Id_Recepcion_Lugar
-        INNER JOIN apps.usuarios AS us ON s.Fk_Id_Usuario = us.Pk_Id_Usuario
-        WHERE
-            s.Pk_Id_Solicitud = {$id_solicitud}";
+        LEFT JOIN apps.usuarios AS us ON s.Fk_Id_Usuario = us.Pk_Id_Usuario
+        ";
+
+            if ($id_solicitud) {
+                $this->db->where("s.Pk_Id_Solicitud", $id_solicitud);
+            return $this->db->query($sql)->row();
+            }
+            return $this->db->query($sql)->result();
 
         //Se ejecuta y retorna la consulta
-        return $this->db->query($sql)->row();
     }//Fin ver()
 
     /**
