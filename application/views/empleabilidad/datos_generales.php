@@ -259,8 +259,6 @@ $profesiones = $this->hoja_vida_model->cargar_profesiones();
 			if(documento_existe){
 				//Se muestra el mensaje de error
                 $(".div_mensaje").html('<div class="alert"><button class="close" data-dismiss="alert">&times;</button>Este número de documento ya existe. Por favor envíenos un correo a info@vinus.com.co para actualizar su hoja de vida</div>');
-
-                return false;
 			} else {
 				//Se recogen los datos a validar
 				campos_obligatorios = new Array(
