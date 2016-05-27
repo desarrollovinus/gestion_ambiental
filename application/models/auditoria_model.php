@@ -179,7 +179,6 @@ Class Auditoria_model extends CI_Model{
         return $fecha;
     }//Fin formato_fecha()
 
-    
     /**
      * 
      * Esta funcion formatea el numero de la solicitud

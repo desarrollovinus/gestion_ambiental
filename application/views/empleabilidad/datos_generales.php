@@ -135,7 +135,7 @@ $profesiones = $this->hoja_vida_model->cargar_profesiones();
 
 				<!-- Género -->
 				<div class="control-group">
-					<label class="control-label" for="genero">Género</label>
+					<label class="control-label" for="genero">Género *</label>
 					<div class="controls">
 						<select id="genero"class="select_lateral">
 							<option value="">Seleccione</option>
@@ -227,27 +227,6 @@ $profesiones = $this->hoja_vida_model->cargar_profesiones();
     	//Se toma las fechas
 		fecha_nacimiento = anio.val() + "-" + mes.val() + "-" + dia.val();
 
-		/**
-         * Cálculo de la fecha de nacimiento
-         */
-        $("#dia, #mes, #anio").on("change", function(){
-        	//Si se seleccionaron los tres datos, se declara la fecha
-        	if(dia.val() !="" && mes.val() !="" && anio.val() !=""){
-        		//Se toma la fecha
-				fecha_nacimiento = anio.val() + "-" + mes.val() + "-" + dia.val();
-
-				//Se calcula la edad
-				edad = enviar_ajax("<?php echo site_url('hoja_vida/calcular_edad') ?>", {fecha: dia.val() + "-" + mes.val() + "-" + anio.val()})
-
-				//Se imprime la edad
-				// $("#edad>h4").html(edad + " años");
-        	} else {
-    			//Se resetea nuevamente la fecha
-        		fecha_nacimiento = null;
-        		// $("#edad>h4").html("");
-        	} // if
-        }); // Change fecha nacimiento
-
         /**
 		 * Cuando se seleccione un municipio
 		 */
@@ -273,8 +252,65 @@ $profesiones = $this->hoja_vida_model->cargar_profesiones();
 
 		//Submit
 		$("form").on("submit", function(){
+			// Se quita cualquier mensaje de error
+			$(".div_mensaje").html("");
+			
+			// Si la cédula ya existe en base de datos
+			if(documento_existe){
+				//Se muestra el mensaje de error
+                $(".div_mensaje").html('<div class="alert"><button class="close" data-dismiss="alert">&times;</button>Este número de documento ya existe. Por favor envíenos un correo a info@vinus.com.co para actualizar su hoja de vida</div>');
 
-				
+                return false;
+			} else {
+				//Se recogen los datos a validar
+				campos_obligatorios = new Array(
+					documento.val(),
+					nombres.val(),
+					telefono.val(),
+					fecha_nacimiento,
+					genero.val(),
+					sector.val(),
+					nivel_estudio.val(),
+					profesion.val(),
+					observaciones.val()
+				);
+
+				if(!validar_campos_vacios(campos_obligatorios)){
+					//Se muestra el mensaje de error
+	                $(".div_mensaje").html('<div class="alert"><button class="close" data-dismiss="alert">&times;</button>Aún no podemos guardar sus datos.\n\
+	                Verifique que los campos obligatorios (marcados con *) estén diligenciados.</div>');
+
+	                return false;
+				} // if
+
+				//Se recogen los datos
+				datos = {
+					"Contratado": 0,
+					"Direccion": direccion.val().toUpperCase(),
+					"Documento": documento.val(),
+					"Fecha_Nacimiento": fecha_nacimiento,
+					"Fk_Id_Sector": sector.val(),
+					"Fk_Id_Valor_Nivel_Estudio": nivel_estudio.val(),
+					"Fk_Id_Valor_Profesion": profesion.val(),
+					"Id_Genero": genero.val(),
+					"Nombres": nombres.val().toUpperCase(),
+					"Observaciones": observaciones.val().toUpperCase(),
+					"Recibida": 0,
+					"Telefono": telefono.val(),
+					"Fk_Id_Usuario": 33,
+					"Fecha_Recepcion": "<?php echo date('Y-m-d', time()); ?>"
+				}//datos
+
+				//Para guardar ejecutaremos una funcion JS que envía datos con ajax
+				id = enviar_ajax("<?php echo site_url('empleabilidad/guardar'); ?>", {'datos': datos});
+
+				// Si guardó correctamente
+				if (id) {
+					location.href = "empleabilidad/archivo" + "/" + id;
+
+					// Se envía el email informando de la subida de la hoja de vida
+				} // if
+			} // if
 
 			return false;
 		});//Fin submit

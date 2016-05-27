@@ -19,12 +19,26 @@ Class Empleabilidad extends CI_Controller{
     }//Fin construct()
 
     function index(){
-    	//se establece el titulo de la pagina
+        //se establece el titulo de la pagina
         $this->data['titulo'] = 'Trabaje con nosotros';
         //Se establece la vista de la barra lateral
         $this->data['menu'] = 'empleabilidad/menu';
         //Se establece la vista que tiene el contenido principal
         $this->data['contenido_principal'] = 'empleabilidad/datos_generales';
+        //Se carga la plantilla con las demas variables
+        $this->load->view('plantillas/template', $this->data);
+    }//Fin index()
+
+    function archivo(){
+        // Se envía el id de la hoja de vida
+        $this->data["id_hoja_vida"] = $this->uri->segment(3);
+
+    	//se establece el titulo de la pagina
+        $this->data['titulo'] = 'Suba su hoja de vida';
+        //Se establece la vista de la barra lateral
+        $this->data['menu'] = 'empleabilidad/menu';
+        //Se establece la vista que tiene el contenido principal
+        $this->data['contenido_principal'] = 'empleabilidad/archivo';
         //Se carga la plantilla con las demas variables
         $this->load->view('plantillas/template', $this->data);
     }//Fin index()
@@ -52,6 +66,26 @@ Class Empleabilidad extends CI_Controller{
             $documento = $this->hoja_vida_model->validar_documento($this->input->post("documento"));
             
             echo "$documento";
+        }else{
+            //Si la peticion fue hecha mediante navegador, se redirecciona a la pagina de inicio
+            redirect('');
+        }
+    }
+
+    function guardar(){
+        //Se valida que la peticion venga mediante ajax y no mediante el navegador
+        if($this->input->is_ajax_request()){
+            //Si se guarda
+            if ($this->hoja_vida_model->guardar($this->input->post('datos'))) {
+                $id = mysql_insert_id();
+
+                //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
+                $this->auditoria_model->insertar(5, 22, $id);
+
+                echo $id;
+            }else{
+                echo 'false';
+            }
         }else{
             //Si la peticion fue hecha mediante navegador, se redirecciona a la pagina de inicio
             redirect('');
