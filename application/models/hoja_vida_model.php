@@ -369,6 +369,7 @@ Class Hoja_vida_model extends CI_Model{
             hv.Ubicacion_Fisica,
             hv.Fk_Id_Valor_Contratista,
             hv.Fk_Id_Valor_Nivel_Estudio,
+            hv.Fk_Id_Usuario,
             hv.Fk_Id_Valor_Profesion,
             v.Nombre AS Subcontratista,
             solicitudes.hv.Contratado AS Vinculado,
@@ -405,7 +406,8 @@ Class Hoja_vida_model extends CI_Model{
                 'Si'
             WHEN '0' THEN
                 'No'
-            END AS Verificada
+            END AS Verificada,
+            vpr.Nombre Profesion
         FROM
             solicitudes.hojas_vida AS hv
         LEFT JOIN solicitudes.tbl_sectores AS s ON hv.Fk_Id_Sector = s.Pk_Id_Sector
@@ -414,6 +416,7 @@ Class Hoja_vida_model extends CI_Model{
         LEFT JOIN solicitudes.tbl_frentes AS f ON hv.Fk_Id_Frente = f.Pk_Id_Frente
         LEFT JOIN solicitudes.tbl_oficios AS o ON hv.Fk_Id_Oficio = o.Pk_Id_Oficio
         LEFT JOIN ica.tbl_valores AS v ON hv.Fk_Id_Valor_Contratista = v.Pk_Id_Valor
+        LEFT JOIN ica.tbl_valores AS vpr ON hv.Fk_Id_Valor_Profesion = vpr.Pk_Id_Valor
         WHERE
             hv.Pk_Id_Hoja_Vida IS NOT NULL
             {$condiciones}

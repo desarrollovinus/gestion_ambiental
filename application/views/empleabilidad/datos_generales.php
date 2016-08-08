@@ -13,6 +13,11 @@ $profesiones = $this->hoja_vida_model->cargar_profesiones();
 <!-- Formulario -->
 <form class="form-inline">
 	<div class="row-fluid">
+		<div class="span12">
+			<strong style="font-size: 0.8em">Si su lugar de residencia o profesión no apareece dentro de las opciones, por favor especifíquela dentro de la descripción del perfil</strong>
+		</div>
+		</div>
+	<div class="row-fluid">
 		<div class="span4 well">
 			<!-- Número de documento -->
 			<div class="control-group">
@@ -160,7 +165,7 @@ $profesiones = $this->hoja_vida_model->cargar_profesiones();
 
 	<!-- Descripción -->
 				<div class="control-group">
-					<label class="control-label" for="observaciones">Describa brevemente su perfil *</label>
+					<label class="control-label" for="observaciones">Describa brevemente su perfil (Qué hace, profesión, lugar de residencia y experiencia, si la tiene) *</label>
 					<div class="controls">
 						<textarea id="observaciones" class="span12" rows="3" ><?php if (isset($curriculo->Observaciones)) { echo $curriculo->Observaciones; }else{ echo ""; } ?></textarea>
 					</div>
