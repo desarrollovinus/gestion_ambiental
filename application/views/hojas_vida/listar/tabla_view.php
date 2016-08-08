@@ -9,8 +9,10 @@ $acceso = $this->session->userdata('Acceso');
 			<th>Nro.</th>
 			<th>Nombres</th>
 			<th>Documento</th>
+			<th>Profesión</th>
 			<th>Contratista</th>
 			<th>Vinculado</th>
+			<th>Recibida por la web</th>
 			<th>Ubicación</th>
 			<th width="30px">Opciones</th>
 		</tr>
@@ -24,8 +26,10 @@ $acceso = $this->session->userdata('Acceso');
 				<td><?php echo $cont; ?></td>
 				<td><?php echo $curriculo->Nombres; ?></td>
 				<td class="derecha"><?php echo $curriculo->Documento; ?></td>
+				<td><?php echo $curriculo->Profesion; ?></td>
 				<td><?php echo $curriculo->Subcontratista; ?></td>
 				<td><?php echo $curriculo->Contratado; ?></td>
+				<td><?php if ($curriculo->Fk_Id_Usuario == 33) { echo "Si "; } else { echo ""; } ?></td>
 				<td><?php echo $curriculo->Ubicacion_Fisica; ?></td>
 				<td>
 					<!-- Se activa el ícono si puede ver o editar-->
