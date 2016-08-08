@@ -172,16 +172,22 @@ Class Hoja_vida_model extends CI_Model{
     }//Fin guardar()
 
     function listar_archivos($id_hoja_vida){
-        $sql = "SELECT
-        hojas_vida_archivos.Pk_Id_Hoja_Vida_Archivo,
-        tbl_hojas_vida_categorias.Nombre AS Categoria,
-        tbl_hojas_vida_subcategorias.Nombre AS Subcategoria
+        $sql =
+        "SELECT
+            a.Pk_Id_Hoja_Vida_Archivo,
+            s.Nombre AS Categoria,
+            c.Nombre AS Subcategoria,
+            a.Fecha_Hora Fecha
         FROM
-        hojas_vida_archivos
-        INNER JOIN tbl_hojas_vida_subcategorias ON hojas_vida_archivos.Fk_Id_Hoja_Vida_Subcategoria = tbl_hojas_vida_subcategorias.Pk_Id_Hoja_Vida_Subcategoria
-        INNER JOIN tbl_hojas_vida_categorias ON tbl_hojas_vida_subcategorias.Fk_Id_Hoja_Vida_Categoria = tbl_hojas_vida_categorias.Pk_Id_Hoja_Vida_Categoria
+            hojas_vida_archivos AS a
+        INNER JOIN tbl_hojas_vida_subcategorias AS c ON a.Fk_Id_Hoja_Vida_Subcategoria = c.Pk_Id_Hoja_Vida_Subcategoria
+        INNER JOIN tbl_hojas_vida_categorias AS s ON c.Fk_Id_Hoja_Vida_Categoria = s.Pk_Id_Hoja_Vida_Categoria
         WHERE
-        hojas_vida_archivos.Fk_Id_Hoja_Vida = {$id_hoja_vida}";
+            a.Fk_Id_Hoja_Vida = {$id_hoja_vida}
+        ORDER BY
+            Categoria ASC,
+            Subcategoria ASC,
+            a.Fecha_Hora DESC";
 
         return $this->db->query($sql)->result();
     }

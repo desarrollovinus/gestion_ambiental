@@ -23,9 +23,9 @@ $acceso = $this->session->userdata('Acceso');
 		foreach ($curriculos as $curriculo) {
 		?>
 			<tr>
-				<td><?php echo $cont; ?></td>
+				<td class="text-right"><?php echo $cont; ?></td>
 				<td><?php echo $curriculo->Nombres; ?></td>
-				<td class="derecha"><?php echo $curriculo->Documento; ?></td>
+				<td class="text-right"><?php echo $curriculo->Documento; ?></td>
 				<td><?php echo $curriculo->Profesion; ?></td>
 				<td><?php echo $curriculo->Subcontratista; ?></td>
 				<td><?php echo $curriculo->Contratado; ?></td>

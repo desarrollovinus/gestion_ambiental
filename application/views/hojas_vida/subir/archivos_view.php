@@ -24,12 +24,13 @@ $archivos = $this->hoja_vida_model->listar_archivos($id_hoja_vida);
 	</div>
 </div><!-- Modal Eliminar -->
 
-<table id="tabla_archivos" class="table table-condensed">
+<table id="tabla_archivos" class="table table-condensed table-hover table-striped">
 	<thead>
 		<tr>
 			<th>Nro.</th>
 			<th>Categoría</th>
-			<th>Detalle</th>
+			<th>Subcategoría</th>
+			<th>Fecha subida</th>
 			<th>Opciones</th>
 		</tr>
 	</thead>
@@ -42,6 +43,7 @@ $archivos = $this->hoja_vida_model->listar_archivos($id_hoja_vida);
 				<td><?php echo $cont; ?></td>
 				<td><?php echo $archivo->Categoria; ?></td>
 				<td><?php echo $archivo->Subcategoria; ?></td>
+				<td><?php echo $this->auditoria_model->formato_fecha($archivo->Fecha); ?></td>
 				<td>
 					<?php
 					//$ruta = base_url().'archivos/hojas_vida/'.$archivo->Pk_Id_Hoja_Vida_Archivo;
