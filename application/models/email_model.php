@@ -2,7 +2,7 @@
 /**
  * Modelo que se encarga de enviar los correos electr&oacute;nicos
  * @author 					John Arley Cano Salinas
- * @copyright	&copy;  	HATOVIAL S.A.S.
+ * @copyright	&copy;  	Concesión Vías del Nus S.A.S.
  */
 Class Email_model extends CI_Model{
     /**
@@ -21,10 +21,11 @@ Class Email_model extends CI_Model{
      * Variables globales de configuraci&oacute;n del correo
      */
     var $protocolo = 'smtp';
-    var $servidor_correo = 'mail.hatovial.com';
+    var $servidor_correo = 'mail.vinus.com.co';
     var $usuario_sistema = 'ambiental';
-    var $password_sistema = 'hat0v1al';
-    var $correo_sistema = 'ambiental@hatovial.com';
+    // var $usuario_sistema = 'ambiental';
+    var $password_sistema = 'V1nus*';
+    var $correo_sistema = 'ambiental@vinus.com.co';
 
     /**
     * Env&iacute;a los correos electr&oacute;nicos
@@ -45,7 +46,7 @@ Class Email_model extends CI_Model{
         $this->email->initialize($config);
 
         //Preparando el mensaje
-        $this->email->from($this->correo_sistema, 'Sistema de Gestión Socio Ambiental - Hatovial S.A.S.');
+        $this->email->from($this->correo_sistema, 'Sistema de Gestión Ambiental - VINUS S.A.S.');
         $this->email->to($usuarios); 
         //$this->email->cc(''); 
         $this->email->bcc(array('johnarleycano@hotmail.com')); 
@@ -143,15 +144,15 @@ Class Email_model extends CI_Model{
     function listar_areas(){
         $sql =
         "SELECT
-            tbl_area_encargada.Pk_Id_Area_Encargada,
-            tbl_area_encargada.Nombre
+            a.Pk_Id_Area_Encargada,
+            a.Nombre
         FROM
-            destinatarios_email
-            INNER JOIN tbl_area_encargada ON destinatarios_email.Fk_Id_Area_Encargada = tbl_area_encargada.Pk_Id_Area_Encargada
+            destinatarios_email AS d
+        INNER JOIN tbl_area_encargada AS a ON d.Fk_Id_Area_Encargada = a.Pk_Id_Area_Encargada
         GROUP BY
-            destinatarios_email.Fk_Id_Area_Encargada
+            d.Fk_Id_Area_Encargada
         ORDER BY
-            destinatarios_email.Fk_Id_Area_Encargada ASC";
+            a.Nombre ASC";
 
         //Se retorna el resultado de la consulta
         return $this->db->query($sql)->result();

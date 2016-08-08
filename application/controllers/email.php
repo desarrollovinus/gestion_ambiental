@@ -40,9 +40,9 @@ Class Email extends CI_Controller{
     function index(){
         //Se ejecutan las funciones que enviaran los correos
         $this->solicitudes_en_tramite_por_area();
-        echo '<center>----------------</center>';
+        // echo '<center>----------------</center>';
         $this->solicitudes_en_tramite_total();
-        echo '<center>----------------</center>';
+        // echo '<center>----------------</center>';
         $this->hojas_vida_modificadas();
     }//Fin index()
 
@@ -113,14 +113,19 @@ Class Email extends CI_Controller{
         echo $asunto = 'Hojas de vida modificadas por contratista'; 
 
         // Ahora definimos el titulo del correo
-        echo $titulo = "<p>A continuaci&oacute;n se listan los contratistas y se especifica el porcentaje de las hojas de vida modificadas la última semana, de acuerdo al total:</p>"; 
+        echo $titulo = "<p>A continuaci&oacute;n se listan los contratistas y se especifica el porcentaje de las hojas de vida modificadas la última semana. Esto corresponde a las novedades que se han ingresado al sistema.</p>"; 
 
         // Se establece el cuerpo del mensaje
         echo $cuerpo = $tabla;
 
-        // Se ejecuta el modelo que envia el email
-        $this->email_model->_enviar_email(array('eddy.lotero@hatovial.com', 'elianavelezts@gmail.com', 'yuli.gomez@hatovial.com', 'victor.sepulveda@hatovial.com', 'esteban.cifuentes@hatovial.com', 'carolina.palacio@hatovial.com', 'sandra.idarraga@hatovial.com'), $titulo, $asunto, $cuerpo);    
-        // $this->email_model->_enviar_email(array('john.cano@hatovial.com'), $titulo, $asunto, $cuerpo);    
+        // Si es local
+        if ($this->config->item("tipo_repositorio") == "local") {
+            // Se ejecuta el modelo que envia el email
+            $this->email_model->_enviar_email(array('john.cano@vinus.com.co'), $titulo, $asunto, $cuerpo);    
+        } else {
+            // Se ejecuta el modelo que envia el email
+            $this->email_model->_enviar_email(array('eddy.lotero@hatovial.com', 'sandra.idarraga@vinus.com.co',), $titulo, $asunto, $cuerpo);    
+        } // if
     } // hojas_vida_modificadas
 
     /**
@@ -160,7 +165,7 @@ Class Email extends CI_Controller{
                 $tabla .= '<th width="5%">No.</th>';
                 $tabla .= '<th width="10%">Solicitud</th>';
                 $tabla .= '<th>Radicado Entrada</th>';
-                $tabla .= '<th>Tramo</th>';
+                $tabla .= '<th>Unidad funcional</th>';
                 $tabla .= '<th width="15%">Creada</th>';
                 $tabla .= '<th>Detalle</th>';
                 $tabla .= '<th width="10%">Solicitante</th>';
@@ -184,13 +189,13 @@ Class Email extends CI_Controller{
 
                     //Se arma el registro
                     $tabla .= '<tr>';
-                    $tabla .= '<td class="numero">'.$numero.'&nbsp;</td>';
+                    $tabla .= '<td class="numero" align="right">'.$numero.'&nbsp;</td>';
                     $tabla .= '<td>'.$this->auditoria_model->numero_solicitud($solicitud->Pk_Id_Solicitud).'</td>';
-                    $tabla .= '<td>'.$solicitud->Radicado_Entrada.'</td>';
-                    $tabla .= '<td>'.$solicitud->Tramo.'</td>';
+                    $tabla .= '<td width="10%">'.$solicitud->Radicado_Entrada.'</td>';
+                    $tabla .= '<td width="10%">'.$solicitud->Tramo.'</td>';
                     $tabla .= '<td>'.$this->auditoria_model->formato_fecha($solicitud->Fecha_Creacion).'</td>';
-                    $tabla .= '<td>'.$solicitud->Descripcion.'</td>';
-                    $tabla .= '<td>'.$solicitud->Nombres.'</td>';
+                    $tabla .= '<td width="50%">'.$solicitud->Descripcion.'</td>';
+                    $tabla .= '<td width="15%">'.$solicitud->Nombres.'</td>';
                     $tabla .= '</tr>';
                 }//Fin foreach solicitudes
 
@@ -207,7 +212,7 @@ Class Email extends CI_Controller{
                 foreach ($destinatarios as $destinatario){
                     //Se almacenan los correos en un arreglo
                     array_push($usuarios, $destinatario->Email);
-                }//Fin if solicitudes
+                }//Fin foreach destinatarios
 
                 //Se describe el asunto
                 echo $asunto = $area.' - Solicitudes en trámite'; 
@@ -217,17 +222,18 @@ Class Email extends CI_Controller{
 
                 //Se establece el cuerpo del mensaje
                 echo $cuerpo = $tabla;
-                
-                print_r($usuarios);
 
                 echo '<br/>---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------<br/>';
 
-                //Se ejecuta el modelo que envia el email
-                //$this->email_model->_enviar_email(array('johnarleycano@hotmail.com'), $titulo, $asunto, $cuerpo);    
-                $this->email_model->_enviar_email($usuarios, $titulo, $asunto, $cuerpo);    
-            }//Fin foreach destinatarios
+                //Se ejecuta el modelo que envia el email, de acuerdo a lo configurado, sea local o web
+                if ($this->config->item("tipo_repositorio") == "local") {
+                    $this->email_model->_enviar_email(array(''), $titulo, $asunto, $cuerpo);
+                } else {
+                    $this->email_model->_enviar_email($usuarios, $titulo, $asunto, $cuerpo);
+                } // if
+            }// if
         }//Fin foreach areas
-    }//Fin solicitudes_en_tramite()
+    }//Fin solicitudes_en_tramite_por_area()
 
     /**
      * 
@@ -243,11 +249,16 @@ Class Email extends CI_Controller{
         $areas = $this->email_model->listar_areas();
 
         //Se describe el asunto
-        echo $asunto = 'Solicitudes en trámite'; 
+        echo $asunto = 'Solicitudes en trámite';
 
-        //Se almacenan los usuarios a quien les llegara el correo
-        $usuarios = array('ludis.perez@hatovial.com', 'monica.foronda@hatovial.com', 'eddy.lotero@hatovial.com', 'elianavelezts@gmail.com');
-        // $usuarios = array('john.cano@hatovial.com');
+        // Si es local
+        if ($this->config->item("tipo_repositorio") == "local") {
+            //Se almacenan los usuarios a quien les llegara el correo
+            $usuarios = array('john.cano@vinus.com.co');
+        } else {
+            //Se almacenan los usuarios a quien les llegara el correo
+            $usuarios = array('ludis.perez@hatovial.com', 'monica.foronda@hatovial.com', 'eddy.lotero@hatovial.com');    
+        } // if
 
         //Ahora definimos el titulo del correo
         echo $titulo = "<p>A continuaci&oacute;n se listan las solicitudes que aun est&aacute;n en tr&aacute;mite para todas las &aacute;reas: </p>"; 
@@ -279,7 +290,7 @@ Class Email extends CI_Controller{
                 $tabla .= '<th width="5%">No.</th>';
                 $tabla .= '<th width="10%">Solicitud</th>';
                 $tabla .= '<th>Radicado Entrada</th>';
-                $tabla .= '<th>Tramo</th>';
+                $tabla .= '<th>Unidad funcional</th>';
                 $tabla .= '<th width="15%">Creada</th>';
                 $tabla .= '<th>Detalle</th>';
                 $tabla .= '<th width="10%">Solicitante</th>';
@@ -306,11 +317,11 @@ Class Email extends CI_Controller{
                     $tabla .= '<tr>';
                     $tabla .= '<td class="numero">'.$numero.'&nbsp;</td>';
                     $tabla .= '<td>'.$this->auditoria_model->numero_solicitud($solicitud->Pk_Id_Solicitud).'</td>';
-                    $tabla .= '<td>'.$solicitud->Radicado_Entrada.'</td>';
-                    $tabla .= '<td>'.$solicitud->Tramo.'</td>';
+                    $tabla .= '<td width="10%">'.$solicitud->Radicado_Entrada.'</td>';
+                    $tabla .= '<td width="10%">'.$solicitud->Tramo.'</td>';
                     $tabla .= '<td>'.$this->auditoria_model->formato_fecha($solicitud->Fecha_Creacion).'</td>';
-                    $tabla .= '<td>'.$solicitud->Descripcion.'</td>';
-                    $tabla .= '<td>'.$solicitud->Nombres.'</td>';
+                    $tabla .= '<td width="50%">'.$solicitud->Descripcion.'</td>';
+                    $tabla .= '<td width="15%">'.$solicitud->Nombres.'</td>';
                     $tabla .= '</tr>';
                 }//Fin foreach solicitudes
 
@@ -319,23 +330,22 @@ Class Email extends CI_Controller{
 
                 //Se establece el cuerpo del mensaje almacenando cada tabla del recorrido de areas
                 $cuerpo .= $tabla;
-                //Ok
+                echo $tabla;
             }//Fin if solicitudes
         }//Fin foreach areas
 
         if($numero > 0){
-            echo $cuerpo; print_r($usuarios );
+            // echo $cuerpo; print_r($usuarios );
 
             //Se ejecuta el modelo que envia el email
             $this->email_model->_enviar_email($usuarios, $titulo, $asunto, $cuerpo);
-            //$this->email_model->_enviar_email(array('johnarleycano@hotmail.com'), $titulo, $asunto, $cuerpo);
 
             //Se envia un reporte que dice cuantos ha enviado
-            $this->email_model->_enviar_email(null, 'Reporte de enviados', 'Reporte de enviados', $cuerpo);  
+            $this->email_model->_enviar_email(array(""), 'Reporte de enviados', 'Reporte de enviados', $cuerpo);  
         }else{
             //Se envia un reporte que dice que no hay ninguno
-            $this->email_model->_enviar_email(null, 'Reporte de enviados', 'Reporte de enviados', 'Son en total 0');  
-        }
+            $this->email_model->_enviar_email(array(""), 'Reporte de enviados', 'Reporte de enviados', 'No hay ninguna solicitud en trámite');  
+        } // if
     }//Fin solicitudes_en_tramite_total
 }
 /* End of file email.php */
