@@ -267,7 +267,7 @@ if ($id_hoja_vida) {
 
 			<!--Tramo -->
 			<div class="control-group">
-				<label class="control-label" for="tramo">Tramo</label>
+				<label class="control-label" for="tramo">Unidad Funcional</label>
 				<div class="controls">
 					<select id="tramo"class="select_lateral">
 						<option value="">Seleccione...</option>
