@@ -14,6 +14,7 @@
                 <th class="alinear_centro">Nombre</th>
                 <th class="alinear_centro">Inicio</th>
                 <th class="alinear_centro">Horas</th>
+                <th class="alinear_centro">Convocados</th>
                 <th class="alinear_centro" width="10%">Opc.</th>
             </tr>
         </thead><!-- Cabecera -->
@@ -26,10 +27,11 @@
             foreach ($capacitaciones as $capacitacion) { 
             ?>
                 <tr>
-                    <td class="derecha"><?php echo $cont; ?></td>
+                    <td class="text-right"><?php echo $cont; ?></td>
                     <td><?php echo $capacitacion->Nombre; ?></td>
-                    <td><?php echo $capacitacion->Fecha_Inicio; ?></td>
-                    <td class="derecha"><?php echo $capacitacion->Horas; ?></td>
+                    <td><?php echo $this->auditoria_model->formato_fecha($capacitacion->Fecha_Inicio); ?></td>
+                    <td class="text-right"><?php echo $capacitacion->Horas; ?></td>
+                    <td class="text-right"><?php echo $capacitacion->Convocados; ?></td>
                     <td></td>
                 </tr>
             <?php
