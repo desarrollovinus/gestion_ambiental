@@ -172,16 +172,22 @@ Class Hoja_vida_model extends CI_Model{
     }//Fin guardar()
 
     function listar_archivos($id_hoja_vida){
-        $sql = "SELECT
-        hojas_vida_archivos.Pk_Id_Hoja_Vida_Archivo,
-        tbl_hojas_vida_categorias.Nombre AS Categoria,
-        tbl_hojas_vida_subcategorias.Nombre AS Subcategoria
+        $sql =
+        "SELECT
+            a.Pk_Id_Hoja_Vida_Archivo,
+            s.Nombre AS Categoria,
+            c.Nombre AS Subcategoria,
+            a.Fecha_Hora Fecha
         FROM
-        hojas_vida_archivos
-        INNER JOIN tbl_hojas_vida_subcategorias ON hojas_vida_archivos.Fk_Id_Hoja_Vida_Subcategoria = tbl_hojas_vida_subcategorias.Pk_Id_Hoja_Vida_Subcategoria
-        INNER JOIN tbl_hojas_vida_categorias ON tbl_hojas_vida_subcategorias.Fk_Id_Hoja_Vida_Categoria = tbl_hojas_vida_categorias.Pk_Id_Hoja_Vida_Categoria
+            hojas_vida_archivos AS a
+        INNER JOIN tbl_hojas_vida_subcategorias AS c ON a.Fk_Id_Hoja_Vida_Subcategoria = c.Pk_Id_Hoja_Vida_Subcategoria
+        INNER JOIN tbl_hojas_vida_categorias AS s ON c.Fk_Id_Hoja_Vida_Categoria = s.Pk_Id_Hoja_Vida_Categoria
         WHERE
-        hojas_vida_archivos.Fk_Id_Hoja_Vida = {$id_hoja_vida}";
+            a.Fk_Id_Hoja_Vida = {$id_hoja_vida}
+        ORDER BY
+            Categoria ASC,
+            Subcategoria ASC,
+            a.Fecha_Hora DESC";
 
         return $this->db->query($sql)->result();
     }
@@ -369,6 +375,7 @@ Class Hoja_vida_model extends CI_Model{
             hv.Ubicacion_Fisica,
             hv.Fk_Id_Valor_Contratista,
             hv.Fk_Id_Valor_Nivel_Estudio,
+            hv.Fk_Id_Usuario,
             hv.Fk_Id_Valor_Profesion,
             v.Nombre AS Subcontratista,
             solicitudes.hv.Contratado AS Vinculado,
@@ -405,7 +412,8 @@ Class Hoja_vida_model extends CI_Model{
                 'Si'
             WHEN '0' THEN
                 'No'
-            END AS Verificada
+            END AS Verificada,
+            vpr.Nombre Profesion
         FROM
             solicitudes.hojas_vida AS hv
         LEFT JOIN solicitudes.tbl_sectores AS s ON hv.Fk_Id_Sector = s.Pk_Id_Sector
@@ -414,6 +422,7 @@ Class Hoja_vida_model extends CI_Model{
         LEFT JOIN solicitudes.tbl_frentes AS f ON hv.Fk_Id_Frente = f.Pk_Id_Frente
         LEFT JOIN solicitudes.tbl_oficios AS o ON hv.Fk_Id_Oficio = o.Pk_Id_Oficio
         LEFT JOIN ica.tbl_valores AS v ON hv.Fk_Id_Valor_Contratista = v.Pk_Id_Valor
+        LEFT JOIN ica.tbl_valores AS vpr ON hv.Fk_Id_Valor_Profesion = vpr.Pk_Id_Valor
         WHERE
             hv.Pk_Id_Hoja_Vida IS NOT NULL
             {$condiciones}

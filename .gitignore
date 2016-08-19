@@ -1,5 +1,6 @@
 # Archivos de configuracion
 archivos/hojas_vida/*
+archivos/sql/*
 application/config/database.php
 application/config/config.php
 # Archivos de mysql workbench

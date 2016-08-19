@@ -41,12 +41,17 @@
 	</div>
 	<div class="span6">
 		<div class="span12">
-			<div class="span6">
-	            <label for="horas">Cantidad de horas en total *</label>
+			<div class="span5">
+	            <label for="horas">Horas en total *</label>
 		    	<input type="text" id="horas" class="input-large" />
 			</div>
 
-			<div class="span6">
+			<div class="span5">
+	            <label for="convocados">Total convocados *</label>
+		    	<input type="text" id="convocados" class="input-large" />
+			</div>
+
+			<div class="span3">
 				<!--Botones-->
 				<p></p>
 			    <input type="submit" class="btn btn-primary btn-block" value="Guardar"/>
@@ -72,6 +77,7 @@
     	var fecha_final = $("#fecha_final");
     	var horas = $("#horas");
     	var nombre = $("#nombre");
+    	var convocados = $("#convocados");
 
     	// submit
     	$("form").on("submit", function(){
@@ -80,7 +86,8 @@
 				fecha_final.val(),
 				fecha_final.val(),
 				horas.val(),
-    			nombre.val()
+    			nombre.val(),
+    			convocados.val()
 			);
 
 			//Se ejecuta la validación
@@ -94,6 +101,7 @@
 			}else{
 				//Se declara un arreglo con los datos
 				datos = {
+					'Convocados': convocados.val(),
 					'Descripcion': descripcion.val(),
 					'Fecha_Inicio': fecha_inicio.val(),
 					'Fecha_Final': fecha_final.val(),
