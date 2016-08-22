@@ -382,6 +382,19 @@ Class Reporte extends CI_Controller{
 				$this->data['anio'] = $this->uri->segment(3);
         $this->load->view('reportes/excel/recepcion_solicitudes', $this->data);
     }//Fin recepcion_solicitudes
+
+    /**
+     * Reporte que genera la plantilla de solicitudes
+     */
+    function capacitaciones(){
+        //Se carga la vista que contiene el reporte
+        $this->data['mes'] = $this->uri->segment(4);
+        $this->data['anio'] = $this->uri->segment(3);
+        $this->load->view('reportes/excel/capacitaciones');
+
+        //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
+        // $this->auditoria_model->insertar(1, 11, null);
+    }//Fin capacitaciones
 }
 /* End of file reporte.php */
 /* Location: ./gestion_ambiental/application/controllers/reporte.php */
