@@ -48,6 +48,36 @@ Class Reporte_model extends CI_Model{
         return $this->db->query($sql)->result();
     }
 
+    /**
+     * Cargar capacitaciones
+     */
+    function cargar_capacitaciones($anio, $mes){
+        $sql = 
+        "SELECT
+            LPAD(DAY(c.Fecha_Inicio),2,'0') Dia,
+            LPAD(MONTH(c.Fecha_Inicio),2,'0') Mes,
+            YEAR(c.Fecha_Inicio) Anio,
+            c.Nombre,
+            c.Convocados,
+            (SELECT
+                COUNT(
+                    DISTINCT hvc.Fk_Id_Hoja_Vida
+                )
+            FROM
+                hojas_vida_capacitaciones AS hvc
+            WHERE
+                hvc.Fk_Id_Capacitacion = Pk_Id_Capacitacion) Capacitados
+        FROM
+            capacitaciones AS c
+        WHERE
+            YEAR (c.Fecha_Inicio) = {$anio}
+        AND MONTH (c.Fecha_Inicio) = {$mes}
+        ORDER BY
+            c.Fecha_Inicio DESC";
+
+        return $this->db->query($sql)->result();
+    } // cargar_capacitaciones
+
     function consolidado_solicitudes_mensual($anio, $mes){
         $sql =
         "SELECT
@@ -221,6 +251,52 @@ Class Reporte_model extends CI_Model{
         }//Fin foreach()
     }//Fin contar_solicitudes()
 
+    function contar_vinculados_mes($anio, $mes){
+        $sql =
+        "SELECT
+            hv.Fecha_Vinculacion
+        FROM
+            hojas_vida AS hv
+        WHERE
+            YEAR (hv.Fecha_Vinculacion) = {$anio}
+        AND MONTH (hv.Fecha_Vinculacion) = {$mes}";
+
+        //Se retorna el resultado de la consulta
+        return count($this->db->query($sql)->result());
+    }//Fin contar_vinculados_mes
+
+    function contar_capacitados_mes($anio, $mes){
+        $sql =
+        "SELECT
+            hvc.Fk_Id_Hoja_Vida
+        FROM
+            hojas_vida_capacitaciones AS hvc
+        WHERE
+            YEAR (hvc.Fecha) = {$anio}
+        AND MONTH (hvc.Fecha) = {$mes}
+        GROUP BY
+            hvc.Fk_Id_Hoja_Vida";
+
+        //Se retorna el resultado de la consulta
+        return count($this->db->query($sql)->result());
+    }//Fin contar_capacitados_mes
+
+    function contar_vinculados_a_fecha($anio, $mes){
+        $sql =
+        "SELECT
+            hv.Fecha_Vinculacion,
+            hv.Contratado
+        FROM
+            hojas_vida AS hv
+        WHERE
+            hv.Contratado = 1
+        AND hv.Fk_Id_Valor_Contratista = 206
+        AND hv.Fecha_Vinculacion <= '{$anio}-{$mes}-01'";
+
+        //Se retorna el resultado de la consulta
+        return count($this->db->query($sql)->result());
+    } // contar_vinculados_a_fecha
+
     function fichas_fotos($anio, $mes, $id_tramo, $id_area){
         $sql_ =
         "SELECT
@@ -292,6 +368,19 @@ Class Reporte_model extends CI_Model{
 		//Se retorna el resultado de la consulta
         return $this->db->query($sql)->result();
     }//Fin listar_anios()
+
+    function listar_anios_capacitaciones(){
+        $sql =
+        "SELECT
+            YEAR (c.Fecha_Inicio) Anio
+        FROM
+            capacitaciones c
+        GROUP BY
+            Anio";
+
+        //Se retorna el resultado de la consulta
+        return $this->db->query($sql)->result();
+    } // listar_anios_capacitaciones
 
     function listar_fichas_fotos_1a(){
         $sql =

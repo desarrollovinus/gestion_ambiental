@@ -1,5 +1,37 @@
 <div class="row-fluid">
 	<!--Validar permiso-->
+	<?php if (isset($acceso[76])) { ?>
+		<div class="span6">
+		 	<div class="box-header"><h2>Informe mensual de capacitaciones</h2></div>
+		    <div class="box-content">
+				<div class="mensaje_capacitaciones"></div>
+				<div class="controls">
+					<!-- Año -->
+	    			<select id="anio_capacitacion" class="span6">
+	    				<option value="0">Año</option>
+						<?php foreach ($this->reporte_model->listar_anios_capacitaciones() as $anio_capacitacion) { ?>
+							<option value="<?php echo $anio_capacitacion->Anio; ?>"><?php echo $anio_capacitacion->Anio; ?></option>
+						<?php } ?>
+	    			</select>
+
+					<!-- Mes -->
+	    			<select id="mes_capacitacion" class="span6">
+	    				<option value="0">Mes</option>
+						<?php foreach ($this->solicitud_model->listar_meses() as $mes) { ?>
+							<option value="<?php echo $mes['Numero']; ?>"><?php echo $mes['Nombre']; ?></option>
+						<?php } ?>
+	    			</select>
+
+	    			<!-- Clic -->
+		    		<button id="btn_capacitaciones" class="btn btn-large btn-block btn-success btn-primary" type="button">Generar</button>
+	    		</div>
+	    	</div>
+		</div>
+	<?php } ?>
+</div>
+
+<div class="row-fluid">
+	<!--Validar permiso-->
 	<?php if (isset($acceso[28])) { ?>
 		<div class="span6">
 			<div class="box-header"><h2>Plantilla de solicitudes</h2></div>
@@ -145,8 +177,10 @@
 		// console.log("<?php echo $this->session->userdata('Fk_Id_Area'); ?>");
 		$('#anio > option[value="<?php echo date("Y"); ?>"]').attr('selected', 'selected');
 		$('#anio_consolidado > option[value="<?php echo date("Y"); ?>"]').attr('selected', 'selected');
+		$('#anio_capacitacion > option[value="<?php echo date("Y"); ?>"]').attr('selected', 'selected');
 		$('#mes > option[value="<?php echo str_pad(date("m") - 1, 2, 0, STR_PAD_LEFT); ?>"]').attr('selected', 'selected');
 		$('#mes_consolidado > option[value="<?php echo str_pad(date("m") - 1, 2, 0, STR_PAD_LEFT); ?>"]').attr('selected', 'selected');
+		$('#mes_capacitacion > option[value="<?php echo str_pad(date("m") - 1, 2, 0, STR_PAD_LEFT); ?>"]').attr('selected', 'selected');
 
 		$("#btn_registro_fotografico").on("click", function(){
 			// Si no hay alguno de los tres seleccionado
@@ -168,6 +202,17 @@
 			} else {
 				window.location = "reporte/recepcion_solicitudes/" + $("#anio_consolidado").val() + "/" + $("#mes_consolidado").val();
 			}
+		});
+
+		$("#btn_capacitaciones").on("click", function(){
+			// Si no hay alguno de los dos seleccionado
+			if ($("#anio_capacitacion").val() == 0 || $("#mes_capacitacion").val() == 0) {
+				// Mensaje de error
+				$(".mensaje_capacitaciones").html('<div class="alert"><button class="close" data-dismiss="alert">&times;</button>Aun no se puede generar el reporte.\n\
+				Seleccione año y mes.</div>');
+			} else {
+				window.location = "reporte/capacitaciones/" + $("#anio_capacitacion").val() + "/" + $("#mes_capacitacion").val() + "/"+ $("#mes_capacitacion option:selected").text();
+			}// if
 		});
 
 		//Cuando se seleccione un tramo

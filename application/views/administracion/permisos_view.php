@@ -356,6 +356,12 @@ foreach ($permisos as $permiso) {
 								<?php if(in_array("75", $acciones)) {$check = "checked";} else {$check = "";} ?>
 								<input type="checkbox" name="permiso[]" value="75" <?php echo $check; ?> > Consolidado mensual de las hojas de vida
 							</label>
+
+							<!-- Informe mensual de capacitaciones -->
+							<label class="checkbox">
+								<?php if(in_array("76", $acciones)) {$check = "checked";} else {$check = "";} ?>
+								<input type="checkbox" name="permiso[]" value="76" <?php echo $check; ?> > Informe mensual de capacitaciones
+							</label>
 						</div>
 
 						<div class="tab-pane" id="hojas3">
