@@ -48,6 +48,27 @@ Class Reporte_model extends CI_Model{
         return $this->db->query($sql)->result();
     }
 
+    function cargar_frentes_vinculados($fecha_inicio, $fecha_fin){
+        $sql =
+        "SELECT
+            tbl_frentes.Pk_Id_Frente,
+            tbl_frentes.Nombre,
+            Count(hv.Pk_Id_Hoja_Vida) Total
+        FROM
+            hojas_vida AS hv
+        LEFT JOIN tbl_frentes ON hv.Fk_Id_Frente = tbl_frentes.Pk_Id_Frente
+        WHERE
+            hv.Contratado = 1
+        AND hv.Fecha_Vinculacion BETWEEN '{$fecha_inicio}'
+        AND '{$fecha_fin}'
+        GROUP BY
+            hv.Fk_Id_Frente
+        ORDER BY
+            Nombre ASC";
+
+        return $this->db->query($sql)->result();
+    } // cargar_frentes_vinculados
+
     /**
      * Cargar capacitaciones
      */
@@ -251,6 +272,12 @@ Class Reporte_model extends CI_Model{
         }//Fin foreach()
     }//Fin contar_solicitudes()
 
+    function contar_vinculados(){
+        $this->db->select("Pk_Id_Hoja_Vida");
+        $this->db->where("Contratado", 1);
+        return count($this->db->get("hojas_vida")->result());
+    }
+
     function contar_vinculados_mes($anio, $mes){
         $sql =
         "SELECT
@@ -264,6 +291,121 @@ Class Reporte_model extends CI_Model{
         //Se retorna el resultado de la consulta
         return count($this->db->query($sql)->result());
     }//Fin contar_vinculados_mes
+
+    function contar_vinculados_area_influencia($frente=null, $tipo, $fecha_inicio, $fecha_fin){
+        // Si trae frente
+        if($frente){
+            $frente = "AND hv.Fk_Id_Frente = {$frente}";
+        }
+
+        $sql =
+        "SELECT
+            hv.Pk_Id_Hoja_Vida,
+            s.AID
+        FROM
+            hojas_vida AS hv
+        INNER JOIN tbl_sectores AS s ON hv.Fk_Id_Sector = s.Pk_Id_Sector
+        WHERE
+            hv.Contratado = 1
+            AND hv.Fecha_Vinculacion BETWEEN '{$fecha_inicio}' AND '{$fecha_fin}'
+            {$frente}
+        AND s.AID = {$tipo}";
+
+        //Se retorna el resultado de la consulta
+        return count($this->db->query($sql)->result());
+    } // contar_vinculados_area_influencia
+
+    function contar_vinculados_directos($frente=null, $tipo, $fecha_inicio, $fecha_fin){
+        // Si el tipo es directo
+        if ($tipo) {
+           $tipo = "=";
+        }else{
+           $tipo = "<>";
+        }
+
+        // Si trae frente
+        if($frente){
+            $frente = "AND  hv.Fk_Id_Frente = {$frente}";
+        }
+
+        $sql =
+        "SELECT
+            hv.Pk_Id_Hoja_Vida
+        FROM
+            hojas_vida AS hv
+        WHERE
+            hv.Contratado = 1
+            {$frente}
+        AND hv.Fecha_Vinculacion BETWEEN '{$fecha_inicio}' AND '{$fecha_fin}'
+        AND hv.Fk_Id_Valor_Contratista {$tipo} 206";
+
+        //Se retorna el resultado de la consulta
+        return count($this->db->query($sql)->result());
+    } // contar_vinculados_directos
+
+    function contar_vinculados_genero($frente=null, $tipo, $fecha_inicio, $fecha_fin){
+        // Si trae frente
+        if($frente){
+            $frente = "AND  hv.Fk_Id_Frente = {$frente}";
+        }
+
+        $sql =
+        "SELECT
+            hv.Pk_Id_Hoja_Vida
+        FROM
+            hojas_vida AS hv
+        WHERE
+            hv.Contratado = 1
+        {$frente}
+        AND hv.Fecha_Vinculacion BETWEEN '{$fecha_inicio}' AND '{$fecha_fin}'
+        AND hv.Id_Genero = {$tipo}";
+        
+        //Se retorna el resultado de la consulta
+        return count($this->db->query($sql)->result());
+    } // contar_vinculados_genero
+
+    function contar_vinculados_acr($frente=null, $tipo, $fecha_inicio, $fecha_fin){
+        // Si trae frente
+        if($frente){
+            $frente = "AND  hv.Fk_Id_Frente = {$frente}";
+        }
+
+        $sql =
+        "SELECT
+            hv.Pk_Id_Hoja_Vida
+        FROM
+            hojas_vida AS hv
+        WHERE
+            hv.Contratado = 1
+        {$frente}
+        AND hv.Fecha_Vinculacion BETWEEN '{$fecha_inicio}' AND '{$fecha_fin}'
+        AND hv.ACR = {$tipo}";
+        
+        //Se retorna el resultado de la consulta
+        return count($this->db->query($sql)->result());
+    } // contar_vinculados_acr
+
+    function contar_vinculados_calificados($frente=null, $tipo, $fecha_inicio, $fecha_fin){
+        // Si trae frente
+        if($frente){
+            $frente = "AND  hv.Fk_Id_Frente = {$frente}";
+        }
+
+        $sql =
+        "SELECT
+            hv.Pk_Id_Hoja_Vida
+        FROM
+            hojas_vida AS hv
+        INNER JOIN tbl_oficios AS o ON hv.Fk_Id_Oficio = o.Pk_Id_Oficio
+        WHERE
+            hv.Contratado = 1
+        AND o.Calificado = {$tipo}
+        {$frente}
+        AND hv.Fecha_Vinculacion BETWEEN '{$fecha_inicio}' AND '{$fecha_fin}'";
+        
+        //Se retorna el resultado de la consulta
+        return count($this->db->query($sql)->result());
+    } // contar_vinculados_calificados
 
     function contar_capacitados_mes($anio, $mes){
         $sql =
@@ -291,7 +433,7 @@ Class Reporte_model extends CI_Model{
         WHERE
             hv.Contratado = 1
         AND hv.Fk_Id_Valor_Contratista = 206
-        AND hv.Fecha_Vinculacion <= '{$anio}-{$mes}-01'";
+        AND hv.Fecha_Vinculacion <= '{$anio}-{$mes}-31'";
 
         //Se retorna el resultado de la consulta
         return count($this->db->query($sql)->result());
@@ -381,6 +523,39 @@ Class Reporte_model extends CI_Model{
         //Se retorna el resultado de la consulta
         return $this->db->query($sql)->result();
     } // listar_anios_capacitaciones
+
+    function listar_anios_vinculados(){
+        $sql =
+        "SELECT
+            YEAR (hv.Fecha_Vinculacion) Anio
+        FROM
+            hojas_vida AS hv
+        WHERE
+            hv.Contratado = 1
+        GROUP BY
+            Anio";
+
+        return $this->db->query($sql)->result();
+    } // listar_anios_vinculados
+
+    /**
+     * Lista las unidades funcionales que tienen hojas de vida
+     */
+    function listar_tramos_hojas_vida(){
+        $sql =
+        "SELECT
+            t.Pk_Id_Tramo,
+            t.Nombre
+        FROM
+            hojas_vida AS hv
+        INNER JOIN tbl_tramos AS t ON hv.Fk_Id_Tramo = t.Pk_Id_Tramo
+        GROUP BY
+            hv.Fk_Id_Tramo
+        ORDER BY
+            t.Nombre ASC";
+
+        return $this->db->query($sql)->result();
+    } // listar_tramos_hojas_vida
 
     function listar_fichas_fotos_1a(){
         $sql =

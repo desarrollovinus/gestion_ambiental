@@ -1,8 +1,90 @@
 <div class="row-fluid">
 	<!--Validar permiso-->
+	<?php if (isset($acceso[77])) { ?>
+		<div class="span12">
+			<div class="box-header"><h2>Mano de obra vinculada al proyecto - Formato 140</h2></div>
+		    <div class="box-content">
+				<div class="mensaje_vinculados"></div>
+
+				<div class="controls">
+					<?php if(false){ ?>
+						<div class="span4">
+							<!-- Unidad Funcional -->
+							<label for="unidad_funcional">Unidad funcional</label>
+			    			<select id="unidad_funcional" class="span6">
+			    				<option value="0">Seleccione</option>
+								<?php foreach ($this->reporte_model->listar_tramos_hojas_vida() as $tramo) { ?>
+									<option value="<?php echo $tramo->Pk_Id_Tramo; ?>"><?php echo $tramo->Nombre; ?></option>
+								<?php } ?>
+			    			</select>
+						</div>
+					<?php } ?>
+					<div class="span4">
+						<!-- Mes inicial -->
+						<label for="mes_inicio_vinculado">Mes inicial</label>
+		    			<select id="mes_inicio_vinculado" class="span6">
+		    				<option value="0">Seleccione</option>
+							<?php foreach ($this->solicitud_model->listar_meses() as $mes) { ?>
+								<option value="<?php echo $mes['Numero']; ?>"><?php echo $mes['Nombre']; ?></option>
+							<?php } ?>
+		    			</select>
+					</div>
+					
+					<div class="span4">
+						<!-- Año inicial -->
+						<label for="anio_inicio_vinculado">Año inicial</label>
+		    			<select id="anio_inicio_vinculado" class="span6">
+		    				<option value="">Seleccione</option>
+							<?php foreach ($this->reporte_model->listar_anios_vinculados() as $anio) { ?>
+								<option value="<?php echo $anio->Anio; ?>"><?php echo $anio->Anio; ?></option>
+							<?php } ?>
+		    			</select>
+					</div>
+
+					<div class="span4">
+						<!-- Vinculados por proveedores -->
+						<label for="vinculados_proveedores">Vinculados por proveedores</label>
+		    			<input type="text" id="vinculados_proveedores">
+					</div>
+				</di>
+				<div class="row-fluid">
+					<div class="span4">
+						<!-- Mes final -->
+						<label for="mes_fin_vinculado">Mes inicial</label>
+		    			<select id="mes_fin_vinculado" class="span6">
+		    				<option value="0">Seleccione</option>
+							<?php foreach ($this->solicitud_model->listar_meses() as $mes) { ?>
+								<option value="<?php echo $mes['Numero']; ?>"><?php echo $mes['Nombre']; ?></option>
+							<?php } ?>
+		    			</select>
+					</div>
+
+					<div class="span4">
+						<!-- Año final -->
+						<label for="anio_fin_vinculado">Año final</label>
+		    			<select id="anio_fin_vinculado" class="span6">
+		    				<option value="">Seleccione</option>
+							<?php foreach ($this->reporte_model->listar_anios_vinculados() as $anio) { ?>
+								<option value="<?php echo $anio->Anio; ?>"><?php echo $anio->Anio; ?></option>
+							<?php } ?>
+		    			</select>
+					</div>
+
+					<div class="span4">
+						<!-- Clic -->
+		    			<button id="btn_vinculados" class="btn btn-large btn-block btn-danger btn-primary" type="button">Generar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	<?php } ?>
+</di>
+
+<div class="row-fluid">
+	<!--Validar permiso-->
 	<?php if (isset($acceso[76])) { ?>
 		<div class="span6">
-		 	<div class="box-header"><h2>Informe mensual de capacitaciones</h2></div>
+		 	<div class="box-header"><h2>Informe mensual de capacitaciones - Formato 139</h2></div>
 		    <div class="box-content">
 				<div class="mensaje_capacitaciones"></div>
 				<div class="controls">
@@ -26,6 +108,36 @@
 		    		<button id="btn_capacitaciones" class="btn btn-large btn-block btn-success btn-primary" type="button">Generar</button>
 	    		</div>
 	    	</div>
+		</div>
+	<?php } ?>
+
+	<!--Validar permiso-->
+	<?php if (isset($acceso[75])) { ?>
+		<div class="span6">
+		 	<div class="box-header"><h2>Consolidado mensual de solicitudes - Formato 136</h2></div>
+		    <div class="box-content">
+				<div class="mensaje"></div>
+				<div class="controls">
+	    			<!-- Año -->
+	    			<select id="anio_consolidado" class="span6">
+	    				<option value="0">Año</option>
+						<?php foreach ($this->reporte_model->listar_anios_reporte() as $anio) { ?>
+							<option value="<?php echo $anio->Anio; ?>"><?php echo $anio->Anio; ?></option>
+						<?php } ?>
+	    			</select>
+
+	    			<!-- Mes -->
+	    			<select id="mes_consolidado" class="span6">
+	    				<option value="0">Mes</option>
+						<?php foreach ($this->solicitud_model->listar_meses() as $mes) { ?>
+							<option value="<?php echo $mes['Numero']; ?>"><?php echo $mes['Nombre']; ?></option>
+						<?php } ?>
+	    			</select>
+
+					<!-- Clic -->
+		    		<button id="btn_consolidado_solicitudes" class="btn btn-large btn-block btn-success btn-primary" type="button">Generar Excel</button>
+	    		</div>
+		    </div>
 		</div>
 	<?php } ?>
 </div>
@@ -104,35 +216,7 @@
 </div>
 
 <div class="row-fluid">
-	<!--Validar permiso-->
-	<?php if (isset($acceso[75])) { ?>
-		<div class="span6">
-		 	<div class="box-header"><h2>Consolidado mensual de solicitudes</h2></div>
-		    <div class="box-content">
-				<div class="mensaje"></div>
-				<div class="controls">
-	    			<!-- Año -->
-	    			<select id="anio_consolidado" class="span6">
-	    				<option value="0">Año</option>
-						<?php foreach ($this->reporte_model->listar_anios_reporte() as $anio) { ?>
-							<option value="<?php echo $anio->Anio; ?>"><?php echo $anio->Anio; ?></option>
-						<?php } ?>
-	    			</select>
-
-	    			<!-- Mes -->
-	    			<select id="mes_consolidado" class="span6">
-	    				<option value="0">Mes</option>
-						<?php foreach ($this->solicitud_model->listar_meses() as $mes) { ?>
-							<option value="<?php echo $mes['Numero']; ?>"><?php echo $mes['Nombre']; ?></option>
-						<?php } ?>
-	    			</select>
-
-					<!-- Clic -->
-		    		<button id="btn_consolidado_solicitudes" class="btn btn-large btn-block btn-success btn-primary" type="button">Generar Excel</button>
-	    		</div>
-		    </div>
-		</div>
-	<?php } ?>
+	
 
 	<div class="span6">
 	 	<div class="box-header"><h2>Reporte ICA semestral</h2></div>
@@ -213,6 +297,28 @@
 			} else {
 				window.location = "reporte/capacitaciones/" + $("#anio_capacitacion").val() + "/" + $("#mes_capacitacion").val() + "/"+ $("#mes_capacitacion option:selected").text();
 			}// if
+		});
+
+		$("#btn_vinculados").on("click", function(){
+			// Si no hay alguno de las opciones seleccionada
+			if ($("#anio_inicio_vinculado").val() == 0 || $("#mes_inicio_vinculado").val() == 0 || $("#anio_fin_vinculado").val() == 0 || $("#mes_fin_vinculado").val() == 0) {
+
+				// Mensaje de error
+				$(".mensaje_vinculados").html('<div class="alert"><button class="close" data-dismiss="alert">&times;</button>Aun no se puede generar el reporte.\n\ Seleccione año inicial y final, además de mes inicial y final.</div>');
+				return false;
+			}// if
+
+			// Si El año inicial es mayor al final
+			if ($("#anio_inicio_vinculado").val() > $("#anio_fin_vinculado").val()) {
+				// Mensaje de error
+				$(".mensaje_vinculados").html('<div class="alert"><button class="close" data-dismiss="alert">&times;</button>El año final debe ser mayor o igual al año de inicio.</div>');
+
+				return false;
+			};
+
+			window.open("<?php echo site_url('reporte/vinculados'); ?>" + "/" + $("#anio_inicio_vinculado").val() + "/" + $("#mes_inicio_vinculado").val() + "/" + $("#anio_fin_vinculado").val() + "/" + $("#mes_fin_vinculado").val() + "/" + $("#vinculados_proveedores").val(), '_blank');
+
+			$(".mensaje_vinculados").html("");
 		});
 
 		//Cuando se seleccione un tramo

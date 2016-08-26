@@ -388,13 +388,22 @@ Class Reporte extends CI_Controller{
      */
     function capacitaciones(){
         //Se carga la vista que contiene el reporte
-        $this->data['mes'] = $this->uri->segment(4);
-        $this->data['anio'] = $this->uri->segment(3);
         $this->load->view('reportes/excel/capacitaciones');
 
         //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
         // $this->auditoria_model->insertar(1, 11, null);
     }//Fin capacitaciones
+
+    /**
+     * Reporte que genera el personal vinculado al proyeco
+     */
+    function vinculados(){
+        //Se carga la vista que contiene el reporte
+        $this->load->view('reportes/pdf/vinculados');
+
+        // //Se inserta el registro en auditoria enviando numero de modulo, tipo de auditoria y id correspondiente
+        // // $this->auditoria_model->insertar(1, 11, null);
+    }//Fin vinculados
 }
 /* End of file reporte.php */
 /* Location: ./gestion_ambiental/application/controllers/reporte.php */

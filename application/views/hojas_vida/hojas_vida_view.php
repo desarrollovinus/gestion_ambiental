@@ -150,6 +150,18 @@ if ($id_hoja_vida) {
 					</div><!-- Barrio / vereda -->
 				</div>
 			</div>
+
+			<!-- Género -->
+			<div class="control-group">
+				<label class="control-label" for="genero">Género</label>
+				<div class="controls">
+					<select id="genero"class="select_lateral">
+						<option value="">Seleccione</option>
+						<option value="1">Masculino</option>
+						<option value="2">Femenino</option>
+					</select>
+				</div>
+			</div><!-- Género -->
 		</div><!-- Columna 1 -->
 
 		<!-- Columna 2 -->
@@ -198,9 +210,35 @@ if ($id_hoja_vida) {
 					</div>
 				</div><!-- Subcontratista -->
 
+				<!--Tramo -->
+				<div class="control-group">
+					<label class="control-label" for="tramo">Unidad Funcional</label>
+					<div class="controls">
+						<select id="tramo"class="select_lateral">
+							<option value="">Seleccione...</option>
+							<?php foreach ($tramos as $tramo) { ?>
+								<option value="<?php echo $tramo->Pk_Id_Tramo; ?>"><?php echo $tramo->Nombre; ?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div><!--Tramo -->
+
+				<!-- Frente -->
+				<div class="control-group">
+					<label class="control-label" for="frente">Frente</label>
+					<div class="controls">
+						<select id="frente"class="select_lateral">
+							<option value="">Seleccione...</option>
+							<?php foreach ($frentes as $frente) { ?>
+								<option value="<?php echo $frente->Pk_Id_Frente; ?>"><?php echo $frente->Nombre; ?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div><!-- Frente -->
+
 				<!-- Nivel de estudios -->
 				<div class="control-group">
-					<label class="control-label" for="nivel_estudio">Nivel de estudios (último completado) *</label>
+					<label class="control-label" for="nivel_estudio">Nivel estudios (último completado) *</label>
 					<div class="controls">
 						<select id="nivel_estudio"class="select_lateral">
 							<option value="">Seleccione...</option>
@@ -254,43 +292,6 @@ if ($id_hoja_vida) {
 
 		<!-- Columna 3 -->
 		<div class="span4">
-			<!-- Género -->
-			<div class="control-group">
-				<label class="control-label" for="genero">Género</label>
-				<div class="controls">
-					<select id="genero"class="select_lateral">
-						<option value="1">Masculino</option>
-						<option value="2">Femenino</option>
-					</select>
-				</div>
-			</div><!-- Género -->
-
-			<!--Tramo -->
-			<div class="control-group">
-				<label class="control-label" for="tramo">Unidad Funcional</label>
-				<div class="controls">
-					<select id="tramo"class="select_lateral">
-						<option value="">Seleccione...</option>
-						<?php foreach ($tramos as $tramo) { ?>
-							<option value="<?php echo $tramo->Pk_Id_Tramo; ?>"><?php echo $tramo->Nombre; ?></option>
-						<?php } ?>
-					</select>
-				</div>
-			</div><!--Tramo -->
-
-			<!-- Frente -->
-			<div class="control-group">
-				<label class="control-label" for="frente">Frente</label>
-				<div class="controls">
-					<select id="frente"class="select_lateral">
-						<option value="">Seleccione...</option>
-						<?php foreach ($frentes as $frente) { ?>
-							<option value="<?php echo $frente->Pk_Id_Frente; ?>"><?php echo $frente->Nombre; ?></option>
-						<?php } ?>
-					</select>
-				</div>
-			</div><!-- Frente -->
-
 			<!-- Dirección -->
 			<div class="control-group">
 				<label class="control-label" for="direccion">Dirección</label>
@@ -309,10 +310,22 @@ if ($id_hoja_vida) {
 				</div>
 			</div><!-- Ubicación Física -->
 
+			<!-- Miembro programa ACR -->
+			<div class="control-group">
+				<label class="control-label" for="acr">Miembro ACR</label>
+				<div class="controls">
+					<select id="acr" class="select_lateral">
+						<option value="0">No</option>
+						<option value="1">Si</option>
+					</select>
+				</div>
+			</div><!-- Miembro programa ACR -->
+
 			<!-- Observación -->
 			<div class="control-group">
+				<label class="control-label" for="observaciones">Observaciones</label>
 				<div class="controls">
-					<textarea id="observaciones" class="span11" rows="3" placeholder="Observaciones" ><?php if (isset($curriculo->Observaciones)) { echo $curriculo->Observaciones; }else{ echo ""; } ?></textarea>
+					<textarea id="observaciones" class="span11" rows="16" placeholder="Observaciones" ><?php if (isset($curriculo->Observaciones)) { echo $curriculo->Observaciones; }else{ echo ""; } ?></textarea>
 				</div>
 			</div><!-- Observación -->
 		</div><!-- Columna 3 -->
@@ -397,6 +410,7 @@ if ($id_hoja_vida) {
 	        $('#subcontratista > option[value="<?php echo $curriculo->Fk_Id_Valor_Contratista; ?>"]').attr('selected', 'selected');
 	        $('#nivel_estudio > option[value="<?php echo $curriculo->Fk_Id_Valor_Nivel_Estudio; ?>"]').attr('selected', 'selected');
 	        $('#profesion > option[value="<?php echo $curriculo->Fk_Id_Valor_Profesion; ?>"]').attr('selected', 'selected');
+	        $('#acr > option[value="<?php echo $curriculo->ACR; ?>"]').attr('selected', 'selected');
 
 	        if("<?php echo $curriculo->Verificado; ?>" == "1"){$("#verificada").prop('checked', true);}
 		});
@@ -433,6 +447,7 @@ if ($id_hoja_vida) {
 		var tipo_hoja_vida = $("#tipo_hoja_vida");
 		var tramo = $("#tramo");
 		var ubicacion_fisica = $("#ubicacion_fisica");
+		var acr = $("#acr");
 		var documento_existe = false
 
 		// Campos bloqueados
@@ -575,6 +590,8 @@ if ($id_hoja_vida) {
 				campos_obligatorios.push(profesion.val());
 				campos_obligatorios.push(oficio.val());
 				campos_obligatorios.push(labores_ejecutadas.val());
+				campos_obligatorios.push(tramo.val());
+				campos_obligatorios.push(frente.val());
 			}
 			// console.log(campos_obligatorios);
 
@@ -603,6 +620,7 @@ if ($id_hoja_vida) {
 					"Observaciones": observaciones.val(),
 					"Recibida": recibida,
 					"Telefono": telefono.val(),
+					"ACR": acr.val(),
 					"Ubicacion_Fisica": ubicacion_fisica.val(),
 					"Verificada": verificada
 				}//datos
