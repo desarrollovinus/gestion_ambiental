@@ -128,7 +128,7 @@ $objPHPExcel->getActiveSheet()->setCellValue('B2', 'FORMATO DE REGISTRO DE CONSO
 $objPHPExcel->getActiveSheet()->setCellValue('D7', 'FECHA DE CAPACITACIÓN');
 $objPHPExcel->getActiveSheet()->setCellValue('D8', 'DD');
 $objPHPExcel->getActiveSheet()->setCellValue('E8', 'MM');
-$objPHPExcel->getActiveSheet()->setCellValue('F8', 'AAA');
+$objPHPExcel->getActiveSheet()->setCellValue('F8', 'AAAA');
 $objPHPExcel->getActiveSheet()->setCellValue('G7', 'Nro. TRABAJADORES OBJETO DE CAPACITACIÓN');
 $objPHPExcel->getActiveSheet()->setCellValue('H7', 'Nro. TRABAJADORES CAPACITADOS');
 $objPHPExcel->getActiveSheet()->setCellValue('I7', '% TRABAJADORES CAPACITADOS');
@@ -191,12 +191,6 @@ foreach ($capacitaciones as $capacitacion) {
 	// Estilos
 	$objPHPExcel->getActiveSheet()->getStyle("D{$fila}")->getNumberFormat()->setFormatCode('00');
 	$objPHPExcel->getActiveSheet()->getStyle("E{$fila}")->getNumberFormat()->setFormatCode('00');
-
-	// Si el porcentaje es mayor a 100%
-	if ($porcentaje_capacitados > 1) {
-		// Relleno rojo
-		$objPHPExcel->getActiveSheet()->getStyle("I{$fila}")->applyFromArray($relleno1);
-	} // if
 
 	// Aumento de fila
 	$fila++;

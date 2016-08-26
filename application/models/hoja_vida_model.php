@@ -358,6 +358,7 @@ Class Hoja_vida_model extends CI_Model{
             hv.Fecha_Nacimiento,
             hv.Fecha_Vinculacion,
             hv.Id_Genero,
+            hv.ACR,
             m.Pk_Id_Municipio,
             m.Nombre AS Municipio,
             hv.Fk_Id_Sector,

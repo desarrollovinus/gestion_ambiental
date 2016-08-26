@@ -161,14 +161,23 @@ Class Solicitud_model extends CI_Model{
      * @return array
      * @throws
      */
-    function cargar_tramos(){
+    function cargar_tramos($id_tramo = null){
         //Columnas a retornar
         $this->db->select('*');
-        $this->db->order_by('Nombre');
 
-        //Se ejecuta y retorna la consulta
-        return $this->db->get('tbl_tramos')->result();
+        // Si trae tramo
+        if ($id_tramo) {
+            $this->db->where("Pk_Id_Tramo", $id_tramo);
+            return $this->db->get('tbl_tramos')->row();
+        } else {
+            $this->db->order_by('Nombre');
+            
+            //Se ejecuta y retorna la consulta
+            return $this->db->get('tbl_tramos')->result();
+        }
     }//Fin cargar_tramos()
+
+
 
     /**
      *
